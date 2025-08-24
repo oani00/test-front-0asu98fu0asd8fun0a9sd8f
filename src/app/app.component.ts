@@ -1,30 +1,25 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { InitialPageComponent } from './pages/initial-page/initial-page.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { MenuMainComponent } from './pages/menu-main/menu-main.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule],
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    InitialPageComponent,
+    LoginComponent,
+    SignUpComponent,
+    MenuMainComponent
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'teste-deploy';
-  dogJson: string = '';
-
-  constructor(private http: HttpClient) {
-    this.fetchDogJson();
-  }
-
-  fetchDogJson() {
-    this.http.get('https://dog.ceo/api/breeds/image/random').subscribe(
-      (data) => {
-        this.dogJson = JSON.stringify(data, null, 2);
-      },
-      (error) => {
-        this.dogJson = 'Error fetching data';
-      }
-    );
-  }
+  title = 'projectangular';
 }

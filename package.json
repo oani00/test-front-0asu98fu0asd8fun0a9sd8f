@@ -1,5 +1,5 @@
 {
-  "name": "teste-deploy",
+  "name": "projectangular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
