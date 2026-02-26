@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "dist/projectangular",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
