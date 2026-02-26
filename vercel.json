@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "dist/projectangular",
+  "outputDirectory": "dist/projectangular/browser",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
