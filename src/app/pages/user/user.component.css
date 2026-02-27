@@ -1,0 +1,76 @@
+.user-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.no-excursions {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+.excursions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.excursion-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.excursion-card h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.excursion-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.unsubscribe-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.unsubscribe-btn:hover {
+  background-color: #c0392b;
+}
+
+.unsubscribe-btn:active {
+  background-color: #a93226;
+}

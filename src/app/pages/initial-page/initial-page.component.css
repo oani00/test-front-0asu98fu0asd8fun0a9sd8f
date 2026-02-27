@@ -1,14 +1,83 @@
 :host {
-    display: block;
-    background-color: #B0D9C1;
-  }
+  display: block;
+  background-color: #b0d9c1;
+}
 
 p {
   font-family: Arial, Helvetica, sans-serif;
   color: orange;
 }
 
+/* Botao Bem vindo */
 .vertical-button {
+  background: none;
+  border: none;
+  color: orange;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.excursions-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px 0;
+}
+
+.excursion-card {
+  cursor: pointer;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.excursion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.excursion-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
   display: block;
-  margin-bottom: 10px; 
+}
+
+.excursion-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.excursion-info h3 {
+  margin: 0 0 10px 0;
+  color: #083c33;
+  font-size: 1.1rem;
+}
+
+.excursion-info p {
+  margin: 0;
+  color: #0f5f51;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .excursions-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
 }

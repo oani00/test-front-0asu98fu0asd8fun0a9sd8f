@@ -1,15 +1,21 @@
-import { Routes } from '@angular/router';
 import { InitialPageComponent } from './pages/initial-page/initial-page.component';
-import { MenuMainComponent } from './pages/menu-main/menu-main.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MenuGeneralComponent } from './pages/menu-general/menu-general.component';
+import { Routes } from '@angular/router';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { SupportComponent } from './pages/support/support.component';
-import { MenuViagensComponent } from './pages/menu-viagens/menu-viagens.component';
-import { ViagemDetailComponent } from './pages/viagem-detail/viagem-detail.component';
+import { ViagemDetailComponent } from './pages/excursion-detail/excursion-detail.component';
+import { AdminPageComponent } from './pages/admin/admin-page.component';
+import { UserComponent } from './pages/user/user.component';
 
 export const routes: Routes = [
-  { path: 'initial', component: InitialPageComponent },
+  { path: 'excursion-detail/:id', component: ViagemDetailComponent },
   { path: '', redirectTo: '/initial', pathMatch: 'full' },
-  { path: 'menu-main', component: MenuMainComponent },
+  { path: 'initial', component: InitialPageComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'menu-general', component: MenuGeneralComponent },
+  { path: 'sign-up', component: SignUpComponent },
   { path: 'support', component: SupportComponent },
-  { path: 'viagens', component: MenuViagensComponent },
-  { path: 'viagem-detail/:id', component: ViagemDetailComponent }
+  { path: 'admin', component: AdminPageComponent },
+  { path: 'user', component: UserComponent }
 ];

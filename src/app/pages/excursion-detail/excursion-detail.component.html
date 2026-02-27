@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detalhe Viagem</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <img 
+          *ngIf="viagem" 
+          [src]="getPictureUrl()" 
+          [alt]="viagem.name"
+          class="excursion-hero-image"
+        />
+        <h2>{{ viagem?.name }}</h2>
+        <div class="price-section">
+          <p class="highlight">A partir de</p>
+          <h3>R$ {{ viagem?.price | number : "1.2-2" }}</h3>
+          <p>Por pessoa</p>
+        </div>
+        <h2>IDA {{ viagem?.date | date : "dd/MM/yyyy" }}</h2>
+        <div class="included-section">
+          <p class="highlight">Incluso:</p>
+          <ul>
+            <li>Transporte com serviço de bordo;</li>
+            <li>Passaporte para entrada do parque;</li>
+          </ul>
+        </div>
+        <div class="subscription-section">
+          <button
+            class="vertical-button subscribe-btn"
+            (click)="toggleSubscription()"
+            [disabled]="!currentUser">
+            {{ isSubscribed ? 'Cancelar Inscrição' : 'Inscrever-se' }}
+          </button>
+          <p *ngIf="!currentUser" class="login-required">Faça login para se inscrever nesta excursão</p>
+        </div>
+      </div>
+      <footer>
+        <p>Nome do Projeto {{ currentYear }}</p>
+      </footer>
+    </div>
+  </body>
+</html>

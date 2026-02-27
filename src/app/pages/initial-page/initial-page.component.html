@@ -1,3 +1,53 @@
-<img width="400 px" src="https://cdn.getyourguide.com/img/tour/c253e75646e9b1da364cd8b948d9529b395dd9c5c3be1df0ec5261e23f83b21f.jpg/132.webp" alt="">
-<button class="vertical-button" routerLink="/menu-main">BEM VINDO</button>
-<img width="400 px" src="https://bing.com/th?id=OSGI.A425DDA935A23E31EEF2BA88EEE7759A&h=1000&w=1920&c=1&rs=1" alt="">
+<div class="center-container">
+  <div *ngIf="loading">Carregando...</div>
+  
+  <!-- Top Row: First 3 excursions -->
+  <div class="excursions-row" *ngIf="!loading && topExcursions.length > 0">
+    <div 
+      *ngFor="let excursion of topExcursions" 
+      class="excursion-card"
+      [routerLink]="['/excursion-detail', excursion._id]">
+      <img
+        [src]="getPictureUrl(excursion)"
+        [alt]="excursion.name"
+        class="excursion-image"
+      />
+      <div class="excursion-info">
+        <h3>{{ excursion.name }}</h3>
+        <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center: Bem Vindo Button -->
+  <br />
+  <div>
+    <button class="vertical-button" routerLink="/menu-general">
+      BEM VINDO
+    </button>
+  </div>
+  <br />
+
+  <!-- Bottom Row: Next 3 excursions -->
+  <div class="excursions-row" *ngIf="!loading && bottomExcursions.length > 0">
+    <div 
+      *ngFor="let excursion of bottomExcursions" 
+      class="excursion-card"
+      [routerLink]="['/excursion-detail', excursion._id]">
+      <img
+        [src]="getPictureUrl(excursion)"
+        [alt]="excursion.name"
+        class="excursion-image"
+      />
+      <div class="excursion-info">
+        <h3>{{ excursion.name }}</h3>
+        <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fallback if no excursions -->
+  <div *ngIf="!loading && topExcursions.length === 0 && bottomExcursions.length === 0">
+    <p>Nenhuma excursão disponível no momento.</p>
+  </div>
+</div>

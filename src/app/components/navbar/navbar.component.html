@@ -1,16 +1,116 @@
-<nav>
-  <ul>
-    <li class="left">
-      <a routerLink="/">
-        <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M0 16H24V13.3333H0V16ZM0 9.33333H24V6.66667H0V9.33333ZM0 0V2.66667H24V0H0Z" fill="#F2EFE9" /> </svg>
-      </a>
-    </li>
-    <li class="center"><a routerLink="/">Nome do projeto</a></li>
-    <li class="right">
-      <a routerLink="/IRPARAPERFIL">
-        <!-- TODO fazer pagina perfil -->
-        <svg width="24" height="16" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M14 0.666656C6.63999 0.666656 0.666656 6.63999 0.666656 14C0.666656 21.36 6.63999 27.3333 14 27.3333C21.36 27.3333 27.3333 21.36 27.3333 14C27.3333 6.63999 21.36 0.666656 14 0.666656ZM14 4.66666C16.2133 4.66666 18 6.45332 18 8.66666C18 10.88 16.2133 12.6667 14 12.6667C11.7867 12.6667 9.99999 10.88 9.99999 8.66666C9.99999 6.45332 11.7867 4.66666 14 4.66666ZM14 23.6C10.6667 23.6 7.71999 21.8933 5.99999 19.3067C6.03999 16.6533 11.3333 15.2 14 15.2C16.6533 15.2 21.96 16.6533 22 19.3067C20.28 21.8933 17.3333 23.6 14 23.6Z" fill="#F2EFE9" /> </svg>
-      </a>
-    </li>
-  </ul>
+<nav class="navbar">
+  <div class="navbar__inner">
+    <div class="navbar__left">
+      <button
+        class="icon-button"
+        type="button"
+        (click)="toggleDrawer()"
+        [attr.aria-expanded]="drawerOpen"
+        aria-controls="nav-drawer"
+      >
+        <span class="sr-only">Abrir menu principal</span>
+        <svg width="26" height="18" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 16H24V13.3333H0V16ZM0 9.33333H24V6.66667H0V9.33333ZM0 0V2.66667H24V0H0Z" fill="#F2EFE9" />
+        </svg>
+      </button>
+      <div class="brand">
+        <a routerLink="/" class="brand__title">Nome do projeto</a>
+        <span class="brand__subtitle">Experiências guiadas e personalizadas</span>
+      </div>
+    </div>
+    <div class="navbar__right">
+      <a class="chip-link" routerLink="/menu-general">Catálogo</a>
+      <a class="chip-link chip-link--ghost" routerLink="/support">Suporte</a>
+      <div class="user-shell">
+        <a routerLink="/user" class="avatar-wrapper">
+          <ng-container *ngIf="(avatar.avatarUrl$ | async) as imageSrc; else emoji">
+            <img [src]="imageSrc" alt="Avatar do usuário" />
+          </ng-container>
+          <ng-template #emoji>
+            <span>{{ (avatar.emoji$ | async) }}</span>
+          </ng-template>
+        </a>
+        <div class="user-meta" *ngIf="userName; else loginLink">
+          <div class="user-text">
+            <span>Bem-vindo,</span>
+            <strong>{{ userName }}</strong>
+          </div>
+          <button type="button" class="logout-button" (click)="logout()">Logout</button>
+        </div>
+      </div>
+      <ng-template #loginLink>
+        <a routerLink="/login" class="login-pill">Entrar</a>
+      </ng-template>
+    </div>
+  </div>
 </nav>
+
+<div
+  *ngIf="drawerOpen"
+  class="drawer-overlay"
+>
+  <button
+    type="button"
+    class="drawer-backdrop"
+    (click)="toggleDrawer(false)"
+    aria-label="Fechar menu lateral"
+  ></button>
+  <aside class="drawer-panel" id="nav-drawer" role="dialog" aria-modal="true">
+    <header class="drawer-header">
+      <div>
+        <p class="eyebrow eyebrow--compact">Explore o catálogo</p>
+        <h3>
+          {{ showExcursions ? (selectedCategory === 'viagem' ? 'Viagens' : 'Passeios') : 'Selecione uma categoria' }}
+        </h3>
+      </div>
+      <button class="icon-button icon-button--light" type="button" (click)="toggleDrawer(false)">
+        <span class="sr-only">Fechar menu</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18" stroke="#0c3c35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 6L18 18" stroke="#0c3c35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="drawer-body" *ngIf="!showExcursions; else excursionsTemplate">
+      <button
+        class="drawer-option"
+        type="button"
+        *ngFor="let option of menuOptions"
+        (click)="onMenuOptionClick(option)"
+      >
+        <div>
+          <span class="option-title">{{ option.name }}</span>
+          <span class="option-description">{{ getMenuOptionDescription(option) }}</span>
+        </div>
+        <span class="option-arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+
+    <ng-template #excursionsTemplate>
+      <div class="drawer-body">
+        <button type="button" class="back-link" (click)="goBackToMenu()">← Voltar</button>
+        <div *ngIf="isLoadingExcursions" class="drawer-loading">
+          Carregando experiências...
+        </div>
+        <p class="drawer-error" *ngIf="drawerError">{{ drawerError }}</p>
+        <ul class="drawer-list" *ngIf="!isLoadingExcursions && !drawerError">
+          <li *ngIf="locations.length === 0" class="drawer-empty">
+            Nenhum {{ selectedCategory === 'viagem' ? 'viagem' : 'passeio' }} disponível no momento.
+          </li>
+          <li *ngFor="let location of locations; trackBy: trackByLocation">
+            <button type="button" (click)="navigateToExcursion(location)">
+              <span>
+                {{ location.name }}
+                <small *ngIf="location.location"> · {{ location.location }}</small>
+              </span>
+              <small *ngIf="location.price">
+                R$ {{ location.price | number:'1.2-2' }}
+              </small>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </ng-template>
+  </aside>
+</div>

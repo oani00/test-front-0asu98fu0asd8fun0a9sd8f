@@ -1,0 +1,23 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Imagem ilustrativa de passeio">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b5c52" />
+      <stop offset="100%" stop-color="#28b19d" />
+    </linearGradient>
+    <linearGradient id="sun" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe09f" />
+      <stop offset="100%" stop-color="#ffb347" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)" />
+  <circle cx="640" cy="140" r="80" fill="url(#sun)" opacity="0.8" />
+  <path d="M0 420 Q150 360 240 380 T420 380 T640 360 T800 400 V600 H0Z" fill="#f2f9f6" opacity="0.35" />
+  <path d="M0 470 Q190 420 320 460 T540 440 T800 460 V600 H0Z" fill="#ffffff" opacity="0.65" />
+  <text x="50%" y="55%" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="40" fill="rgba(255,255,255,0.85)" font-weight="600">
+    Foto em breve
+  </text>
+  <text x="50%" y="63%" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="rgba(255,255,255,0.8)">
+    Atualizamos as imagens diariamente
+  </text>
+</svg>
+

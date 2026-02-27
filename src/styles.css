@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  background-color: #b0d9c1;
+  color: #0c3c35;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color: #b0d9c1;
+}
+
+body {
+  min-height: 100vh;
+}
+
+app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #b0d9c1;
+}

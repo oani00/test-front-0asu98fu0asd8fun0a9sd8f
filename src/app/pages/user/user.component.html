@@ -1,0 +1,60 @@
+<div class="user-page">
+  <h1>Minhas Excursões</h1>
+
+  <!-- Profile Picture Upload Section -->
+  <div class="profile-picture-section" style="margin-bottom: 24px; padding: 16px; border: 1px solid #ccc; border-radius: 8px;">
+    <h2>Foto de Perfil</h2>
+    <div style="margin-bottom: 12px;">
+      <input 
+        type="file" 
+        id="pictureInput" 
+        accept="image/*" 
+        (change)="onFileSelected($event)"
+        style="margin-bottom: 8px;">
+      <button 
+        type="button" 
+        class="vertical-button" 
+        (click)="uploadPicture()"
+        [disabled]="!selectedFile">
+        Enviar Foto
+      </button>
+    </div>
+    <div *ngIf="uploadMessage" style="color: green; margin-top: 8px;">
+      {{ uploadMessage }}
+    </div>
+    <div *ngIf="uploadError" style="color: red; margin-top: 8px;">
+      {{ uploadError }}
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!error">
+    <div *ngIf="loading" class="loading">
+      Carregando excursões...
+    </div>
+
+    <div *ngIf="!loading && userExcursions.length === 0" class="no-excursions">
+      Você não está inscrito em nenhuma excursão.
+    </div>
+
+    <div *ngIf="!loading && userExcursions.length > 0" class="excursions-list">
+      <div *ngFor="let excursion of userExcursions" class="excursion-card">
+        <h3>{{ excursion.name }}</h3>
+        <p *ngIf="excursion.description">{{ excursion.description }}</p>
+        <p *ngIf="excursion.location"><strong>Local:</strong> {{ excursion.location }}</p>
+        <p *ngIf="excursion.date"><strong>Data:</strong> {{ excursion.date | date:'dd/MM/yyyy' }}</p>
+        <p *ngIf="excursion.price"><strong>Preço:</strong> R$ {{ excursion.price }}</p>
+        <p><strong>Tipo:</strong> {{ excursion.type === 'passeio' ? 'Passeio' : 'Viagem' }}</p>
+
+        <button
+          (click)="unsubscribeFromExcursion(excursion._id!)"
+          class="unsubscribe-btn">
+          Sair da Excursão
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

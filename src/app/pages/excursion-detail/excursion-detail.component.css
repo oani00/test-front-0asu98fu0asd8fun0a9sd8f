@@ -1,0 +1,110 @@
+.container {
+    background-color: #d9e6d9;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #2e5f2e;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-style: italic;
+}
+
+.menu-icon, .profile-icon {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.excursion-hero-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+h2 {
+    color: #2e5f2e;
+    font-size: 20px;
+    margin: 15px 0;
+}
+
+.price-section {
+    background-color: #2e5f2e;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px 0;
+    width: 80%;
+    max-width: 300px;
+}
+
+.price-section h3 {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.included-section {
+    background-color: #2e5f2e;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    width: 80%;
+    max-width: 300px;
+}
+
+.included-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.included-section li {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.highlight {
+    background-color: #f4a261;
+    color: #2e5f2e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: bold;
+    margin: 5px 0;
+}

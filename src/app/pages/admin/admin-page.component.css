@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  background: #b0d9c1; /* light green */
+  min-height: 100vh;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 16px;
+  color: #053830;
+  font-family: 'Georgia', serif;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: #0f5f51; /* dark green */
+  color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+}
+
+.filters, .create-form, .excursions-list, form {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.create-form input,
+.create-form select,
+.create-form textarea,
+.edit-mode input,
+.edit-mode select,
+.edit-mode textarea,
+form input,
+form select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #0b4e43;
+  font-size: 14px;
+  flex: 1 1 140px;
+}
+
+.create-form textarea, .edit-mode textarea { flex: 1 1 100%; min-height: 60px; }
+
+button {
+  background: #083c33;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background .2s;
+}
+button:hover { background: #072f28; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+
+.excursions-list { flex-direction: column; }
+.excursion-item { background: #0b4e43; padding: 8px; border-radius: 8px; margin-bottom: 8px; }
+.actions { display: flex; gap: 8px; margin-top: 8px; }
+.status { margin-top: 4px; font-size: 12px; color: #ffe082; }
+.error { color: #ffb3b3; }
+.empty { margin-top: 12px; font-size: 14px; color: #fff; }

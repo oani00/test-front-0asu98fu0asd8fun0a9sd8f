@@ -1,0 +1,62 @@
+.vertical-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 18px;
+    margin: 12px 0;
+    background-color: #0f5f51; /* dark green button */
+    color: #ffffff; /* white text */
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transition: background-color 0.2s ease, transform 0.05s ease;
+}
+
+/* Light green background like Initial page */
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #b0d9c1; /* light green page (matches Initial page) TODO: Standardize this collor in a global styles styles.css file then just call the var */
+    padding: 16px;
+}
+
+/* Title spacing */
+p {
+    margin: 0 0 12px 4px;
+    color: #083c33;
+    font-weight: 600;
+}
+
+.excursion-title {
+    margin: 16px 0 12px;
+    color: #083c33;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.empty-message {
+    margin: 24px 4px;
+    color: #083c33;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Add chevron on the right */
+.vertical-button::after {
+    content: ">";
+    font-size: 22px;
+    color: #ffffff;
+    margin-left: auto;
+}
+
+.vertical-button:hover {
+    background-color: #0b4e43;
+}
+
+.vertical-button:active {
+    transform: translateY(1px);
+}

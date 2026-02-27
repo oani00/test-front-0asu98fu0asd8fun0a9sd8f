@@ -11,13 +11,31 @@ export class ExcursionService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    console.log('[ExcursionService] - constructor: Excursion service initialized');
+  }
 
   getExcursions(): Observable<Excursion[]> {
-    return this.http.get<Excursion[]>(`${environment.apiUrl}/excursions`);
+    const url = `${environment.apiUrl}/excursions`;
+    console.log('[ExcursionService] - getExcursions: Fetching all excursions from:', url);
+    return this.http.get<Excursion[]>(url);
   }
 
   getExcursionById(id: string): Observable<Excursion> {
-    return this.http.get<Excursion>(`${environment.apiUrl}/excursions/${id}`);
+    const url = `${environment.apiUrl}/excursions/${id}`;
+    console.log('[ExcursionService] - getExcursionById: Fetching excursion by ID:', id, 'from:', url);
+    return this.http.get<Excursion>(url);
+  }
+
+  subscribeToExcursion(userId: string, excursionId: string): Observable<any> {
+    const url = `${environment.apiUrl}/users/${userId}/subscribe/${excursionId}`;
+    console.log('[ExcursionService] - subscribeToExcursion: Subscribing user', userId, 'to excursion', excursionId, 'via:', url);
+    return this.http.post(url, {});
+  }
+
+  unsubscribeFromExcursion(userId: string, excursionId: string): Observable<any> {
+    const url = `${environment.apiUrl}/users/${userId}/unsubscribe/${excursionId}`;
+    console.log('[ExcursionService] - unsubscribeFromExcursion: Unsubscribing user', userId, 'from excursion', excursionId, 'via:', url);
+    return this.http.post(url, {});
   }
 }

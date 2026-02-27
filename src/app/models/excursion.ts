@@ -1,3 +1,9 @@
+export interface PictureRef {
+  _id: string;
+  name: string;
+  contentType: string;
+}
+
 export interface Excursion {
   _id?: string; // MongoDB ObjectId as string
   name: string;
@@ -5,7 +11,8 @@ export interface Excursion {
   date?: Date;
   location?: string;
   price?: number;
-  type: 'tour' | 'trip';
-  pictures?: string[]; // Array of Picture ObjectId strings
+  type: 'passeio' | 'viagem';
+  pictures?: (string | PictureRef)[]; // Array of Picture ObjectId strings or populated Picture objects
   users?: string[];    // Array of User ObjectId strings
 }
+

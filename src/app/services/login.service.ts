@@ -9,19 +9,14 @@ import { environment } from '../../environments/environment';
 })
 export class LoginService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    console.log('[LoginService] - constructor: Login service initialized');
+  }
 
-  login(name: string, password: string) {
-    const url = `${environment.apiUrl}/login`; 
-    const body = { name, password };
-    return this.httpClient.post<LoginResponse>(url, body)
-    .pipe(
-      tap((value) =>{
-        sessionStorage.setItem('auth-token', value.token);
-      })
-    );
-
-    
-
+  login(email: string, password: string) {
+    const url = `${environment.apiUrl}/SignUp/login/0`;
+    const body = { email, password };
+    console.log('[LoginService] - login: Attempting login for email:', email, 'at URL:', url);
+    return this.httpClient.post<LoginResponse>(url, body);
   }
 }

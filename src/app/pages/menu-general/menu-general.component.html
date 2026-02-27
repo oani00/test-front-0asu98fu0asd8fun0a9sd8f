@@ -1,0 +1,36 @@
+<div *ngIf="!showExcursions">
+  <p>MENU</p>
+  <!-- TODO should change to Viagens and Passeios depending on what was clicked(the page we are in) -->
+  <button
+    *ngFor="let option of menuOptions"
+    type="button"
+    class="vertical-button"
+    (click)="onMenuOptionClick(option)"  >
+      {{ option.name }}
+  </button>
+</div>
+
+<div *ngIf="showExcursions">
+  <button type="button" class="vertical-button" (click)="goBack()">
+    Voltar
+  </button>
+  <h2 *ngIf="selectedCategory" class="excursion-title">
+    {{ selectedCategory === 'viagem' ? 'Viagens' : 'Passeios' }}
+  </h2>
+  <ng-container *ngIf="locations.length; else emptyState">
+    <div *ngFor="let location of locations">
+      <button
+        type="button"
+        class="vertical-button"
+        routerLink="/excursion-detail/{{ location._id }}"
+      >
+        {{ location.name }}
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #emptyState>
+    <p class="empty-message">
+      Nenhum {{ selectedCategory === 'viagem' ? 'viagem' : 'passeio' }} disponível no momento.
+    </p>
+  </ng-template>
+</div>
