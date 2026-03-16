@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class SignUpComponent {
   name = '';
+  surname = '';
+  phone = '';
+  birthDate = '';
+  cpf = '';
   email = '';
   password = '';
   message = '';
@@ -23,20 +27,47 @@ export class SignUpComponent {
     console.log('[SignUpComponent] - constructor: Sign-up component initialized');
   }
 
+  private normalizeDigits(value: string): string {
+    return value.replace(/\D/g, '');
+  }
+
   onSubmit() {
     console.log('[SignUpComponent] - onSubmit: Attempting to create user with name:', this.name, 'email:', this.email);
     this.message = '';
     this.error = '';
-    if (!this.name || !this.email || !this.password) {
+
+    if (!this.name || !this.surname || !this.phone || !this.birthDate || !this.cpf || !this.email || !this.password) {
       console.log('[SignUpComponent] - onSubmit: Validation failed - missing required fields');
-      this.error = 'Nome, email e senha são obrigatórios.';
+      this.error = 'Todos os campos são obrigatórios.';
       return;
     }
-    this.signUpService.createUser(this.name, this.email, this.password).subscribe({
+
+    const normalizedCpf = this.normalizeDigits(this.cpf);
+    const normalizedPhone = this.normalizeDigits(this.phone);
+
+    if (normalizedCpf.length !== 11) {
+      this.error = 'CPF deve conter 11 dígitos.';
+      return;
+    }
+
+    const fullName = `${this.name.trim()} ${this.surname.trim()}`;
+
+    this.signUpService.createUser(
+      fullName,
+      this.email,
+      this.password,
+      normalizedPhone,
+      this.birthDate,
+      normalizedCpf
+    ).subscribe({
       next: (res) => {
         console.log('[SignUpComponent] - onSubmit: User created successfully:', res);
         this.message = res.message;
         this.name = '';
+        this.surname = '';
+        this.phone = '';
+        this.birthDate = '';
+        this.cpf = '';
         this.email = '';
         this.password = '';
       },

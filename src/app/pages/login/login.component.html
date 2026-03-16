@@ -1,13 +1,61 @@
-<p>LOGIN</p>
+<div class="login-container d-flex align-items-center justify-content-center">
+  <div class="card login-card shadow-lg">
+    <div class="card-body p-5">
+      <div class="text-center mb-4">
+        <h2 class="login-title">Bem-vindo</h2>
+        <p class="text-muted">Acesse sua conta para continuar</p>
+      </div>
 
-<form (ngSubmit)="onSubmit()">
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" [(ngModel)]="email" required><br><br>
-  
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" [(ngModel)]="password" required><br><br>
-  
-  <button type="submit">Log In</button>
-  <button type="button" routerLink="/sign-up">Sign Up</button>
-  <div *ngIf="errorMsg" style="color:red; margin-top:8px;">{{ errorMsg }}</div>
-</form>
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control custom-input"
+            placeholder="seu@email.com"
+            [(ngModel)]="email"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control custom-input"
+            placeholder="Sua senha"
+            [(ngModel)]="password"
+            required
+          />
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+          <button type="submit" class="btn btn-primary btn-login">Entrar</button>
+        </div>
+
+        <div class="text-center mb-3">
+          <button type="button" class="btn btn-link text-decoration-none p-0" routerLink="/forgot-password">
+            Esqueci minha senha
+          </button>
+        </div>
+
+        <hr />
+
+        <div class="text-center">
+          <span class="text-muted">Não tem uma conta? </span>
+          <button type="button" class="btn btn-outline-secondary btn-sm ms-2" routerLink="/sign-up">
+            Cadastrar
+          </button>
+        </div>
+
+        <div *ngIf="errorMsg" class="alert alert-danger mt-3 py-2 small text-center" role="alert">
+          {{ errorMsg }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

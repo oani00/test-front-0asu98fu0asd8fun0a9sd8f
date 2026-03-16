@@ -2,12 +2,17 @@
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
   background-color: #b0d9c1;
   color: #0c3c35;
+  --font-size-base: 16px;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
 }
 
 html,

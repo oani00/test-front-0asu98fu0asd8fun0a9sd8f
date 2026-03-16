@@ -15,9 +15,16 @@ export class SignUpService {
     console.log('[SignUpService] - constructor: Sign-up service initialized');
   }
 
-  createUser(name: string, email: string, password: string): Observable<SignUpResponse> {
+  createUser(
+    name: string,
+    email: string,
+    password: string,
+    phone: string,
+    birthDate: string,
+    cpf: string
+  ): Observable<SignUpResponse> {
     const url = `${environment.apiUrl}/SignUp/CreateUser`;
-    const body = { name, email, password };
+    const body = { name, email, password, phone, birthDate, cpf };
     console.log('[SignUpService] - createUser: Creating user:', name, 'with email:', email, 'at URL:', url);
     return this.http.post<SignUpResponse>(url, body);
   }

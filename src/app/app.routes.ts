@@ -7,12 +7,14 @@ import { SupportComponent } from './pages/support/support.component';
 import { ViagemDetailComponent } from './pages/excursion-detail/excursion-detail.component';
 import { AdminPageComponent } from './pages/admin/admin-page.component';
 import { UserComponent } from './pages/user/user.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   { path: 'excursion-detail/:id', component: ViagemDetailComponent },
   { path: '', redirectTo: '/initial', pathMatch: 'full' },
   { path: 'initial', component: InitialPageComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'menu-general', component: MenuGeneralComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'support', component: SupportComponent },

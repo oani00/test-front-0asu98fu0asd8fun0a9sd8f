@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AvatarService } from '../../services/avatar.service';
 import { ExcursionService } from '../../services/excursion.service';
@@ -26,6 +26,9 @@ export class NavbarComponent implements OnInit {
     { name: 'Suporte', path: '/support' }
   ];
 
+  /** Set to true to enable the hamburger menu drawer. */
+  drawerEnabled = false;
+
   drawerOpen = false;
   showExcursions = false;
   selectedCategory: 'passeio' | 'viagem' | null = null;
@@ -33,16 +36,22 @@ export class NavbarComponent implements OnInit {
   isLoadingExcursions = false;
   drawerError: string | null = null;
 
+  private readonly FONT_SIZE_KEY = 'font-size-preference';
+  private readonly FONT_SIZES = [14, 16, 18, 22, 25, 30] as const;
+  private currentSizeIndex = 1;
+
   constructor(
     public avatar: AvatarService,
     private excursionService: ExcursionService,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
   ) {
     console.log('[NavbarComponent] - constructor: Navbar component initialized');
   }
 
   ngOnInit(): void {
     console.log('[NavbarComponent] - ngOnInit: Initializing navbar component');
+    this.restoreFontSizePreference();
     const user = localStorage.getItem('user');
     if (user) {
       try {
@@ -72,6 +81,37 @@ export class NavbarComponent implements OnInit {
     console.log('[NavbarComponent] - logout: User logged out successfully');
     // Optionally, redirect to login or initial page
     // window.location.href = '/login';
+  }
+
+  increaseFontSize(): void {
+    if (this.currentSizeIndex < this.FONT_SIZES.length - 1) {
+      this.currentSizeIndex++;
+      this.applyFontSize();
+    }
+  }
+
+  decreaseFontSize(): void {
+    if (this.currentSizeIndex > 0) {
+      this.currentSizeIndex--;
+      this.applyFontSize();
+    }
+  }
+
+  private applyFontSize(): void {
+    const size = this.FONT_SIZES[this.currentSizeIndex];
+    this.document.documentElement.style.setProperty('--font-size-base', `${size}px`);
+    localStorage.setItem(this.FONT_SIZE_KEY, String(this.currentSizeIndex));
+  }
+
+  private restoreFontSizePreference(): void {
+    const stored = localStorage.getItem(this.FONT_SIZE_KEY);
+    if (stored !== null) {
+      const index = parseInt(stored, 10);
+      if (index >= 0 && index < this.FONT_SIZES.length) {
+        this.currentSizeIndex = index;
+        this.applyFontSize();
+      }
+    }
   }
 
   toggleDrawer(forceState?: boolean): void {
