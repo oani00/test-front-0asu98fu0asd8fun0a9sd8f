@@ -1,12 +1,15 @@
 <div class="admin-page">
   <h1>Administrador</h1>
-  <div *ngIf="!isAdmin" class="error" style="margin-bottom:16px;">{{ authMsg }}</div>
+  <div *ngIf="!isAdmin" class="error" style="margin-bottom: 16px">
+    {{ authMsg }}
+  </div>
   <section class="cards" *ngIf="isAdmin">
     <div class="card">
       <h2>Cadastro de Passeios / Viagens</h2>
 
       <div class="filters">
-        <label>Filtrar:
+        <label
+          >Filtrar:
           <select [(ngModel)]="filterType">
             <option value="all">Todos</option>
             <option value="passeio">Passeios</option>
@@ -27,11 +30,22 @@
           <option value="viagem">Viagem</option>
         </select>
         <input placeholder="Local" [(ngModel)]="newExcursion.location" />
-        <input placeholder="Preço" type="number" [(ngModel)]="newExcursion.price" />
-        <input placeholder="Data" type="date" [(ngModel)]="newExcursion.date" />
-        <textarea placeholder="Descrição" [(ngModel)]="newExcursion.description"></textarea>
+        <input
+          placeholder="Preço"
+          type="number"
+          [(ngModel)]="newExcursion.price"
+        />
+        <input placeholder="Data de Ida" type="date" [(ngModel)]="newExcursion.date" />
+        <input placeholder="Data de Volta" type="date" [(ngModel)]="newExcursion.returnDate" />
+
+        <textarea
+          placeholder="Descrição"
+          [(ngModel)]="newExcursion.description"
+        ></textarea>
         <input type="file" accept="image/*" (change)="onFileSelected($event)" />
-        <button type="button" (click)="createExcursion()" [disabled]="creating">{{ creating ? 'Criando...' : 'Criar' }}</button>
+        <button type="button" (click)="createExcursion()" [disabled]="creating">
+          {{ creating ? "Criando..." : "Criar" }}
+        </button>
         <div *ngIf="createMsg" class="status">{{ createMsg }}</div>
       </div>
 
@@ -39,10 +53,13 @@
         <h3>Lista</h3>
         <div *ngFor="let ex of filteredExcursions()" class="excursion-item">
           <div *ngIf="!ex.editing" class="view-mode">
-            <strong>{{ ex.name }}</strong> ({{ ex.type }}) - {{ ex.location }} - {{ ex.price | currency:'BRL':'symbol-narrow':'1.0-0' }}
+            <strong>{{ ex.name }}</strong> ({{ ex.type }}) - {{ ex.location }} -
+            {{ ex.price | currency: "BRL" : "symbol-narrow" : "1.0-0" }}
             <div class="actions">
               <button type="button" (click)="toggleEdit(ex)">Editar</button>
-              <button type="button" (click)="deleteExcursion(ex)">Excluir</button>
+              <button type="button" (click)="deleteExcursion(ex)">
+                Excluir
+              </button>
             </div>
           </div>
           <div *ngIf="ex.editing" class="edit-mode">
@@ -53,9 +70,17 @@
             </select>
             <input [(ngModel)]="ex.location" placeholder="Local" />
             <input [(ngModel)]="ex.price" type="number" placeholder="Preço" />
-            <input [(ngModel)]="ex.date" type="date" />
-            <textarea [(ngModel)]="ex.description" placeholder="Descrição"></textarea>
-            <input type="file" accept="image/*" (change)="onFileSelected($event, ex._id)" />
+            <input [(ngModel)]="ex.date" type="date" placeholder="Data de Ida" />
+            <input [(ngModel)]="ex.returnDate" type="date" placeholder="Data de Volta" />
+            <textarea
+              [(ngModel)]="ex.description"
+              placeholder="Descrição"
+            ></textarea>
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event, ex._id)"
+            />
             <div class="actions">
               <button type="button" (click)="saveExcursion(ex)">Salvar</button>
               <button type="button" (click)="toggleEdit(ex)">Cancelar</button>
@@ -63,20 +88,30 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!filteredExcursions().length && !loadingExcursions" class="empty">Nenhuma excursão</div>
+      <div
+        *ngIf="!filteredExcursions().length && !loadingExcursions"
+        class="empty"
+      >
+        Nenhuma excursão
+      </div>
     </div>
 
     <div class="card">
       <h2>Promoção / Despromoção de Usuários</h2>
       <form (ngSubmit)="submitChangeUserType()" #userTypeForm="ngForm">
-        <input name="targetUserId" required placeholder="ID do usuário" [(ngModel)]="targetUserId" />
-        <select name="targetType" required [(ngModel)]="targetType">
+        <input
+          name="targetPhone"
+          required
+          placeholder="Telefone do usuário"
+          [(ngModel)]="targetPhone"
+        />
+        <select name="targetRole" required [(ngModel)]="targetRole">
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
-        <input name="requestingUserEmail" required placeholder="Email admin" [(ngModel)]="requestingUserEmail" />
-        <input name="requestingUserPassword" required type="password" placeholder="Senha admin" [(ngModel)]="requestingUserPassword" />
-        <button type="submit" [disabled]="userTypeLoading">{{ userTypeLoading ? 'Enviando...' : 'Alterar Tipo' }}</button>
+        <button type="submit" [disabled]="userTypeLoading">
+          {{ userTypeLoading ? "Enviando..." : "Alterar Tipo" }}
+        </button>
       </form>
       <div *ngIf="userTypeMsg" class="status">{{ userTypeMsg }}</div>
     </div>

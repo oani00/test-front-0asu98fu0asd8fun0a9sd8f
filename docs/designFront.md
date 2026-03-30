@@ -86,6 +86,7 @@ interface Excursion {
   name: string;           // Nome da excursão (obrigatório)
   description?: string;   // Descrição detalhada
   date?: Date;           // Data do passeio/viagem
+  returnDate?: Date;     // Data de volta
   location?: string;     // Localização
   price?: number;        // Preço por pessoa
   type: 'passeio' | 'viagem'; // Tipo de experiência
@@ -103,7 +104,7 @@ interface Excursion {
 interface User {
   id: string;           // MongoDB ObjectId
   name: string;         // Nome do usuário
-  email: string;        // Email único
+  phone?: string;       // Telefone (login)
   type?: 'user' | 'admin'; // Tipo de usuário
   picture?: string | null; // ID da foto de perfil (referência ao Picture)
 }
@@ -114,7 +115,7 @@ interface User {
 ### ✅ Implementado
 
 #### Sistema de Autenticação
-- Login com email/senha
+- Login com telefone/senha
 - Cadastro de novos usuários
 - Recuperação de senha (mock)
 - Logout funcional
@@ -124,7 +125,7 @@ interface User {
 - Sincronização automática de avatar após login
 
 #### Página de Login (`/login`)
-- **Campos obrigatórios**: Email e Senha
+- **Campos obrigatórios**: Telefone e Senha
 - **Botão "Entrar"**: Submete credenciais ao backend (`POST /SignUp/login/0`)
 - **Link "Esqueci minha senha"**: Redireciona para `/forgot-password`
 - **Link "Cadastrar"**: Redireciona para `/sign-up`
@@ -185,13 +186,13 @@ interface User {
 - Sincronização do avatar na navbar após upload
 - Listagem de excursões nas quais o usuário está inscrito
 - Funcionalidade de desinscrição de excursões
-- Acesso restrito apenas para usuários não-administradores
+- Acesso para qualquer usuário autenticado (incluindo administradores), com o mesmo comportamento de inscrição e área pessoal; o painel `/admin` permanece exclusivo para gestão quando `type: 'admin'`
 
 #### Painel Administrativo
 - CRUD completo de excursões
 - Edição inline de registros
 - Criação de novas experiências
-- Gestão de usuários (promoção/rebaixamento)
+- Gestão de usuários (promoção/rebaixamento): telefone do alvo no formulário; `AdminService.lookupUserByPhone` chama `GET /SignUp/GetUserByPhone?phone=` para obter o `id`, em seguida `patchUserRole` faz `PATCH /users/:id` com `{ role: "user" | "admin" }` (persistido como `type` no backend)
 - Filtros administrativos
 - Controle de acesso baseado em tipo
 
@@ -201,7 +202,7 @@ interface User {
 - Dashboard administrativo avançado
 - Validação de formulários
 - Tratamento de erros abrangente
-- Edição de perfil completa (nome, email, etc.)
+- Edição de perfil completa (nome, telefone, etc.)
 
 ## 👥 Fluxos de Usuário
 
@@ -216,9 +217,10 @@ interface User {
 
 ### Operador/Admin
 1. **Login** → Autenticação como administrador
-2. **Painel Admin** → Acesso ao dashboard
-3. **Gerenciar Excursões** → CRUD de experiências
-4. **Gerenciar Usuários** → Controle de permissões
+2. **Página do Usuário** (`/user`) → Mesmo fluxo que o viajante para foto de perfil, excursões inscritas e inscrição/desinscrição (via catálogo e detalhes)
+3. **Painel Admin** → Acesso ao dashboard de gestão
+4. **Gerenciar Excursões** → CRUD de experiências
+5. **Gerenciar Usuários** → Controle de permissões
 
 ### 🔑 Como Acessar a Página de Administração
 1. **URL Direta**: Navegue para `/admin` (ex: `http://localhost:4200/admin`)
@@ -233,9 +235,8 @@ interface User {
 1. **URL Direta**: Navegue para `/user` (ex: `http://localhost:4200/user`)
 2. **Rota**: Definida em `src/app/app.routes.ts` como `{ path: 'user', component: UserComponent }`
 3. **Requisitos de Acesso**:
-   - Estar logado com uma conta de usuário
-   - O usuário deve ter `type: 'user'` (não admin) no perfil armazenado no localStorage
-   - Caso contrário, a mensagem "Esta página é apenas para usuários não-administradores" será exibida
+   - Estar logado com uma conta de usuário (qualquer `type`: `user` ou `admin`)
+   - Contas administrativas usam a mesma página para perfil e excursões pessoais; o botão "Menu Administrador" leva ao painel `/admin` quando aplicável
 4. **Funcionalidades**:
    - Upload de foto de perfil
    - Visualização de excursões inscritas
@@ -289,7 +290,8 @@ interface User {
   - `POST /excursions` - Criar excursão (admin)
   - `PUT /excursions/:id` - Atualizar excursão (admin)
   - `DELETE /excursions/:id` - Deletar excursão (admin)
-  - `PUT /users/:id/change-type` - Alterar tipo de usuário (admin)
+  - `GET /SignUp/GetUserByPhone?phone=` - Obter `id` e dados públicos pelo telefone (painel admin / lookup)
+  - `PATCH /users/:id` - Atualizar papel (body: `role`: `user` | `admin`). Painel admin; POC sem autenticação na rota no backend
   - `POST /users/:id/picture` - Upload de foto de perfil (multipart/form-data)
   - `GET /pictures/:id` - Obter imagem de perfil por ID
   - `POST /users/:userId/subscribe/:excursionId` - Inscrever usuário em excursão

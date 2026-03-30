@@ -1,45 +1,54 @@
-<!DOCTYPE html>
-<html lang="pt">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Detalhe Viagem</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="content">
-        <img 
-          *ngIf="viagem" 
-          [src]="getPictureUrl()" 
-          [alt]="viagem.name"
-          class="excursion-hero-image"
-        />
-        <h2>{{ viagem?.name }}</h2>
-        <div class="price-section">
-          <p class="highlight">A partir de</p>
-          <h3>R$ {{ viagem?.price | number : "1.2-2" }}</h3>
-          <p>Por pessoa</p>
-        </div>
-        <h2>IDA {{ viagem?.date | date : "dd/MM/yyyy" }}</h2>
+<div class="excursion-detail-container">
+  <div class="content-card">
+    <div class="image-wrapper">
+      <img
+        *ngIf="viagem"
+        [src]="getPictureUrl()"
+        [alt]="viagem.name"
+        class="excursion-hero-image"
+      />
+      <div class="hero-overlay">
+        <h1 class="excursion-title">{{ viagem?.name }}</h1>
+        <span class="excursion-date"
+          ><i class="icon-calendar"></i> Ida:
+          {{ viagem?.date | date: "dd/MM/yyyy" }}</span
+        >
+        <span *ngIf="viagem?.returnDate" class="excursion-date"
+          ><i class="icon-calendar"></i> Volta:
+          {{ viagem?.returnDate | date: "dd/MM/yyyy" }}</span
+        >
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-section">
         <div class="included-section">
-          <p class="highlight">Incluso:</p>
-          <ul>
-            <li>Transporte com serviço de bordo;</li>
-            <li>Passaporte para entrada do parque;</li>
-          </ul>
-        </div>
-        <div class="subscription-section">
-          <button
-            class="vertical-button subscribe-btn"
-            (click)="toggleSubscription()"
-            [disabled]="!currentUser">
-            {{ isSubscribed ? 'Cancelar Inscrição' : 'Inscrever-se' }}
-          </button>
-          <p *ngIf="!currentUser" class="login-required">Faça login para se inscrever nesta excursão</p>
+          <h3 class="section-title">Descrição</h3>
+          <p>{{ viagem?.description }}</p>
         </div>
       </div>
-      <footer>
-        <p>Nome do Projeto {{ currentYear }}</p>
-      </footer>
+
+      <div class="action-section">
+        <div class="price-card">
+          <p class="price-label">A partir de</p>
+          <h2 class="price-value">R$ {{ viagem?.price | number: "1.2-2" }}</h2>
+          <p class="price-sub">Por pessoa</p>
+        </div>
+
+        <div class="subscription-section">
+          <button
+            class="action-button subscribe-btn"
+            [class.subscribed]="isSubscribed"
+            (click)="toggleSubscription()"
+            [disabled]="!currentUser"
+          >
+            {{ isSubscribed ? "Cancelar Inscrição" : "Inscrever-se Agora" }}
+          </button>
+          <p *ngIf="!currentUser" class="login-required">
+            <i class="icon-warning"></i> Faça login para se inscrever
+          </p>
+        </div>
+      </div>
     </div>
-  </body>
-</html>
+  </div>
+</div>

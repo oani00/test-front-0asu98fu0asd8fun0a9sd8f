@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { ExcursionService } from '../../services/excursion.service';
 import { Excursion } from '../../models/excursion';
@@ -9,7 +10,7 @@ import { AvatarService } from '../../services/avatar.service';
 interface User {
   id: string;
   name: string;
-  email: string;
+  phone?: string;
   type?: string;
   picture?: string | null;
 }
@@ -17,10 +18,11 @@ interface User {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
+
 export class UserComponent implements OnInit {
   currentUser: User | null = null;
   userExcursions: Excursion[] = [];
@@ -52,12 +54,7 @@ export class UserComponent implements OnInit {
         this.currentUser = JSON.parse(stored);
         console.log('[UserComponent] - loadUserAndExcursions: Current user loaded:', this.currentUser);
         //TODO essa propriedade nao existe. É errado fazer no localstorage? É, mas, como é uma POC, vamos deixar assim.
-        if (this.currentUser?.type === 'admin') {
-          console.log('[UserComponent] - loadUserAndExcursions: Admin user detected, blocking access');
-          this.error = 'Esta página é apenas para usuários não-administradores.';
-          return;
-        }
-        console.log('[UserComponent] - loadUserAndExcursions: User is not admin, loading excursions');
+        console.log('[UserComponent] - loadUserAndExcursions: Loading excursions for current user');
         this.loadUserExcursions();
       } else {
         console.log('[UserComponent] - loadUserAndExcursions: No user data in localStorage');
@@ -187,5 +184,16 @@ export class UserComponent implements OnInit {
         this.uploadMessage = '';
       }
     });
+  }
+
+  redirectToPayment(excursionId: string): void {
+    console.log('[UserComponent] - redirectToPayment: Redirecting to payment for excursion:', excursionId);
+    
+    const paymentLink = 'https://chat.whatsapp.com/FI1cUBEV1rM7cVl9pBHSKS';
+    if (paymentLink) {
+      window.open(paymentLink, '_blank');
+    } else {
+      alert('Link de pagamento não configurado. Por favor, contate o administrador.');
+    }
   }
 }

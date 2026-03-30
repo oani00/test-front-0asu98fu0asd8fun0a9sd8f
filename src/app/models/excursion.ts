@@ -9,6 +9,7 @@ export interface Excursion {
   name: string;
   description?: string;
   date?: Date;
+  returnDate?: Date;
   location?: string;
   price?: number;
   type: 'passeio' | 'viagem';

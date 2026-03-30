@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AvatarService } from '../../services/avatar.service';
 import { ExcursionService } from '../../services/excursion.service';
 import { Excursion } from '../../models/excursion';
+import { BUSINESS_NAME } from '../../constants';
 
 type MenuOption = {
   name: string;
@@ -19,6 +20,9 @@ type MenuOption = {
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
+
+  readonly BUSINESS_NAME = BUSINESS_NAME;
+  
   userName: string | null = null;
   readonly menuOptions: MenuOption[] = [
     { name: 'Viagens', type: 'viagem' },

@@ -1,30 +1,111 @@
-<h2>Sign Up</h2>
-<form (ngSubmit)="onSubmit()" autocomplete="off">
-  <label for="name">Nome:</label>
-  <input type="text" id="name" [(ngModel)]="name" name="name" required><br><br>
+<div class="signup-container d-flex align-items-center justify-content-center">
+  <div class="card signup-card shadow-lg">
+    <div class="card-body p-5">
+      <div class="text-center mb-4">
+        <h2 class="signup-title">Criar Conta</h2>
+        <p class="text-muted">Preencha os dados abaixo para se cadastrar</p>
+      </div>
 
-  <label for="surname">Sobrenome:</label>
-  <input type="text" id="surname" [(ngModel)]="surname" name="surname" required><br><br>
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control custom-input"
+              placeholder="Seu nome"
+              [(ngModel)]="name"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="surname" class="form-label">Sobrenome</label>
+            <input
+              type="text"
+              id="surname"
+              name="surname"
+              class="form-control custom-input"
+              placeholder="Seu sobrenome"
+              [(ngModel)]="surname"
+              required
+            />
+          </div>
+        </div>
 
-  <label for="phone">Telefone:</label>
-  <input type="text" id="phone" [(ngModel)]="phone" name="phone" placeholder="(00) 00000-0000" required><br><br>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="phone" class="form-label">Telefone</label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              class="form-control custom-input"
+              placeholder="(00) 00000-0000"
+              [(ngModel)]="phone"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="birthDate" class="form-label">Data de Nascimento</label>
+            <input
+              type="date"
+              id="birthDate"
+              name="birthDate"
+              class="form-control custom-input"
+              [(ngModel)]="birthDate"
+              required
+            />
+          </div>
+        </div>
 
-  <label for="birthDate">Data de nascimento:</label>
-  <input type="date" id="birthDate" [(ngModel)]="birthDate" name="birthDate" required><br><br>
+        <div class="mb-3">
+          <label for="cpf" class="form-label">CPF</label>
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            class="form-control custom-input"
+            placeholder="000.000.000-00"
+            [(ngModel)]="cpf"
+            required
+          />
+        </div>
 
-  <label for="cpf">CPF:</label>
-  <input type="text" id="cpf" [(ngModel)]="cpf" name="cpf" placeholder="123.456.789-01" required><br><br>
+        <div class="mb-4">
+          <label for="password" class="form-label">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control custom-input"
+            placeholder="Sua senha"
+            [(ngModel)]="password"
+            required
+          />
+        </div>
 
+        <div class="d-grid gap-2 mb-3">
+          <button type="submit" class="btn btn-primary btn-signup">Criar Conta</button>
+        </div>
 
+        <hr />
 
-  <label for="email">Email:</label>
-  <input type="email" id="email" [(ngModel)]="email" name="email" required><br><br>
+        <div class="text-center">
+          <span class="text-muted">Já tem uma conta? </span>
+          <button type="button" class="btn btn-outline-secondary btn-sm ms-2" routerLink="/login">
+            Entrar
+          </button>
+        </div>
 
-  <label for="password">Senha:</label>
-  <input type="password" id="password" [(ngModel)]="password" name="password" required><br><br>
-
-  <button type="submit">Criar Conta</button>
-</form>
-
-<div *ngIf="message" style="color: green; margin-top: 10px;">{{ message }}</div>
-<div *ngIf="error" style="color: red; margin-top: 10px;">{{ error }}</div>
+        <div *ngIf="message" class="alert alert-success mt-3 py-2 small text-center" role="alert">
+          {{ message }}
+        </div>
+        <div *ngIf="error" class="alert alert-danger mt-3 py-2 small text-center" role="alert">
+          {{ error }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

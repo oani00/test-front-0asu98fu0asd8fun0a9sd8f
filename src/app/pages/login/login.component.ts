@@ -14,7 +14,7 @@ import { AvatarService } from '../../services/avatar.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  email = '';
+  phone = '';
   password = '';
   errorMsg = '';
 
@@ -27,9 +27,9 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log('[LoginComponent] - onSubmit: Attempting login with email:', this.email);
+    console.log('[LoginComponent] - onSubmit: Attempting login with phone:', this.phone);
     this.errorMsg = '';
-    this.loginService.login(this.email, this.password).subscribe({
+    this.loginService.login(this.phone, this.password).subscribe({
       next: (res) => {
         console.log('[LoginComponent] - onSubmit: Login successful, user:', res.user);
         localStorage.setItem('user', JSON.stringify(res.user));

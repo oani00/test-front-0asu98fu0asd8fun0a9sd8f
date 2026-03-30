@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Excursion } from '../models/excursion';
 import { environment } from '../../environments/environment';
 
-export interface ChangeUserTypeRequest {
-  type: 'user' | 'admin';
-  requestingUserEmail: string;
-  requestingUserPassword: string;
+/** Body for PATCH /users/:id when updating role (maps to `type` on the server). */
+export interface PatchUserRoleBody {
+  role: 'user' | 'admin';
 }
 
-export interface ChangeUserTypeResponse {
+export interface PatchUserResponse {
   message: string;
-  user: { id: string; name: string; email: string; type: string };
+  user: { id: string; name: string; phone?: string; type: string };
+}
+
+/** GET /SignUp/GetUserByPhone — no password in response */
+export interface UserLookupByPhoneResponse {
+  id: string;
+  name: string;
+  phone: string;
+  type: string;
+  picture?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -75,11 +83,15 @@ export class AdminService {
     return this.http.delete<{ message: string }>(url);
   }
 
-  // Promote / Demote user
-  changeUserType(userId: string, payload: ChangeUserTypeRequest): Observable<ChangeUserTypeResponse> {
-    console.log('[AdminService] - changeUserType: Changing user type for user ID:', userId, 'to:', payload.type);
-    const url = `${this.base}/users/${userId}/change-type`;
-    console.log('[AdminService] - changeUserType: Making PUT request to:', url, 'with payload:', payload);
-    return this.http.put<ChangeUserTypeResponse>(url, payload);
+  lookupUserByPhone(phone: string): Observable<UserLookupByPhoneResponse> {
+    const params = new HttpParams().set('phone', phone);
+    return this.http.get<UserLookupByPhoneResponse>(`${this.base}/SignUp/GetUserByPhone`, {
+      params
+    });
+  }
+
+  patchUserRole(userId: string, body: PatchUserRoleBody): Observable<PatchUserResponse> {
+    const url = `${this.base}/users/${userId}`;
+    return this.http.patch<PatchUserResponse>(url, body);
   }
 }

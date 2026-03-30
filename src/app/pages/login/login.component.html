@@ -8,15 +8,16 @@
 
       <form (ngSubmit)="onSubmit()">
         <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
+          <label for="phone" class="form-label">Telefone</label>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="tel"
+            id="phone"
+            name="phone"
             class="form-control custom-input"
-            placeholder="seu@email.com"
-            [(ngModel)]="email"
+            placeholder="(00) 00000-0000"
+            [(ngModel)]="phone"
             required
+            autocomplete="tel"
           />
         </div>
 

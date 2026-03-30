@@ -1,110 +1,213 @@
-.container {
-    background-color: #d9e6d9;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
+.excursion-detail-container {
+    padding: 2rem;
+    background-color: #f8fafc;
+    min-height: calc(100vh - 80px); /* Adjust based on your header height */
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: #334155;
 }
 
-header {
-    background-color: #2e5f2e;
-    color: white;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 24px;
-    font-style: italic;
-}
-
-.menu-icon, .profile-icon {
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0 10px;
-}
-
-.content {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-img {
+.content-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    max-width: 1000px;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: #e2e8f0;
 }
 
 .excursion-hero-image {
     width: 100%;
-    max-width: 800px;
-    height: auto;
-    max-height: 500px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    object-position: center;
 }
 
-h2 {
-    color: #2e5f2e;
-    font-size: 20px;
-    margin: 15px 0;
+.hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    padding: 2rem;
+    color: #ffffff;
 }
 
-.price-section {
-    background-color: #2e5f2e;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 10px 0;
-    width: 80%;
-    max-width: 300px;
+.excursion-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-.price-section h3 {
-    font-size: 36px;
-    margin: 10px 0;
+.excursion-date {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* Info Section */
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .included-section {
-    background-color: #2e5f2e;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
-    width: 80%;
-    max-width: 300px;
+    background: #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 12px;
 }
 
-.included-section ul {
-    list-style-type: none;
+.section-title {
+    color: #0f172a;
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.included-list {
+    list-style: none;
     padding: 0;
-    margin: 10px 0 0 0;
+    margin: 0;
 }
 
-.included-section li {
-    margin: 5px 0;
-    text-align: left;
+.included-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.05rem;
+    color: #475569;
 }
 
-.highlight {
-    background-color: #f4a261;
-    color: #2e5f2e;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: inline-block;
+.included-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #10b981;
     font-weight: bold;
-    margin: 5px 0;
+}
+
+/* Action Section */
+.action-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.price-card {
+    background: #2e5f2e;
+    color: white;
+    padding: 1.8rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(46, 95, 46, 0.4);
+}
+
+.price-label {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.price-value {
+    margin: 0.5rem 0;
+    font-size: 2.8rem;
+    font-weight: 800;
+}
+
+.price-sub {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.subscription-section {
+    text-align: center;
+}
+
+.action-button {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #f97316; /* eye-catching orange */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.4);
+}
+
+.action-button:hover:not([disabled]) {
+    background-color: #ea580c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px -1px rgba(249, 115, 22, 0.5);
+}
+
+.action-button.subscribed {
+    background-color: #ef4444;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
+}
+
+.action-button.subscribed:hover:not([disabled]) {
+    background-color: #dc2626;
+}
+
+.action-button[disabled] {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.login-required {
+    margin-top: 1rem;
+    color: #ef4444;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .excursion-detail-container {
+        padding: 1rem;
+    }
+    
+    .excursion-title {
+        font-size: 2rem;
+    }
+    
+    .image-wrapper {
+        height: 300px;
+    }
 }

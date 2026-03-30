@@ -13,10 +13,10 @@ export class LoginService {
     console.log('[LoginService] - constructor: Login service initialized');
   }
 
-  login(email: string, password: string) {
+  login(phone: string, password: string) {
     const url = `${environment.apiUrl}/SignUp/login/0`;
-    const body = { email, password };
-    console.log('[LoginService] - login: Attempting login for email:', email, 'at URL:', url);
+    const body = { phone, password };
+    console.log('[LoginService] - login: Attempting login for phone:', phone, 'at URL:', url);
     return this.httpClient.post<LoginResponse>(url, body);
   }
 }

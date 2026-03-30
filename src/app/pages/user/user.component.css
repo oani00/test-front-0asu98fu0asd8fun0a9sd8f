@@ -74,3 +74,21 @@ h1 {
 .unsubscribe-btn:active {
   background-color: #a93226;
 }
+
+.pay-btn {
+  background-color: #90EE90;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pay-btn:hover {
+  background-color: #76D976;
+}
+
+.pay-btn:active {
+  background-color: #5CCF5C;
+}

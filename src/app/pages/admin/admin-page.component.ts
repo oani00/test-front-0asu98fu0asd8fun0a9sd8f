@@ -1,8 +1,9 @@
 import { Component, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { switchMap } from 'rxjs/operators';
 import { ExcursionService } from '../../services/excursion.service';
-import { AdminService, ChangeUserTypeRequest } from '../../services/admin.service';
+import { AdminService } from '../../services/admin.service';
 import { Excursion } from '../../models/excursion';
 
 // Simple UI state types
@@ -28,11 +29,9 @@ export class AdminPageComponent implements OnInit {
   selectedFile: File | null = null;
   editingFiles: Map<string, File | null> = new Map();
 
-  // User promotion/demotion form
-  targetUserId = '';
-  targetType: 'user' | 'admin' = 'user';
-  requestingUserEmail = '';
-  requestingUserPassword = '';
+  // User promotion/demotion: phone → GET GetUserByPhone → PATCH /users/:id
+  targetPhone = '';
+  targetRole: 'user' | 'admin' = 'user';
   userTypeMsg = '';
   userTypeLoading = false;
 
@@ -52,38 +51,24 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('[AdminPageComponent] - ngOnInit: Initializing admin page');
-    this.prefillAdminCredentials();
+    this.loadAdminAccessFromStorage();
     this.loadExcursions();
   }
 
-  prefillAdminCredentials() {
-    console.log('[AdminPageComponent] - prefillAdminCredentials: Loading admin credentials from localStorage');
+  loadAdminAccessFromStorage() {
     try {
       const stored = localStorage.getItem('user');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        console.log('[AdminPageComponent] - prefillAdminCredentials: User data parsed:', parsed);
-        if (parsed?.email) {
-          this.requestingUserEmail = parsed.email;
-          console.log('[AdminPageComponent] - prefillAdminCredentials: Email set:', this.requestingUserEmail);
-        }
-        if (parsed?.type) {
-          this.isAdmin = parsed.type === 'admin';
-          console.log('[AdminPageComponent] - prefillAdminCredentials: Admin status:', this.isAdmin);
-          if (!this.isAdmin) {
-            this.authMsg = 'Acesso restrito: somente administradores.';
-            console.log('[AdminPageComponent] - prefillAdminCredentials: Non-admin user detected');
-          }
-        }
-      } else {
+      if (!stored) {
         this.isAdmin = false;
         this.authMsg = 'Não autenticado.';
-        console.log('[AdminPageComponent] - prefillAdminCredentials: No user data in localStorage');
+        return;
       }
+      const parsed = JSON.parse(stored);
+      this.isAdmin = parsed?.type === 'admin';
+      this.authMsg = this.isAdmin ? '' : 'Acesso restrito: somente administradores.';
     } catch {
       this.isAdmin = false;
       this.authMsg = 'Erro ao ler usuário armazenado.';
-      console.error('[AdminPageComponent] - prefillAdminCredentials: Error parsing user data');
     }
   }
 
@@ -105,15 +90,23 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
+  //TODO rever codigo comentado
   filteredExcursions(): EditableExcursion[] {
-    console.log('[AdminPageComponent] - filteredExcursions: Filtering excursions by type:', this.filterType);
+    // console.log('[AdminPageComponent] - filteredExcursions: Filtering excursions by type:', this.filterType);
     if (this.filterType === 'all') {
-      console.log('[AdminPageComponent] - filteredExcursions: Returning all excursions:', this.excursions.length);
+      // console.log('[AdminPageComponent] - filteredExcursions: Returning all excursions:', this.excursions.length);
       return this.excursions;
     }
     const filtered = this.excursions.filter(e => e.type === this.filterType);
-    console.log('[AdminPageComponent] - filteredExcursions: Filtered excursions:', filtered.length, 'for type:', this.filterType);
+    // console.log('[AdminPageComponent] - filteredExcursions: Filtered excursions:', filtered.length, 'for type:', this.filterType);
     return filtered;
+  }
+
+  private toDateInputValue(date: any): string {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString().substring(0, 10);
   }
 
   toggleEdit(excursion: EditableExcursion) {
@@ -123,6 +116,9 @@ export class AdminPageComponent implements OnInit {
     if (excursion.editing) {
       // Reset file selection when entering edit mode
       this.editingFiles.set(excursion._id || '', null);
+      // Normalize dates to YYYY-MM-DD for <input type="date">
+      (excursion as any).date = this.toDateInputValue(excursion.date);
+      (excursion as any).returnDate = this.toDateInputValue(excursion.returnDate);
     }
   }
 
@@ -213,36 +209,25 @@ export class AdminPageComponent implements OnInit {
   }
 
   submitChangeUserType() {
-    console.log('[AdminPageComponent] - submitChangeUserType: Changing user type for user ID:', this.targetUserId, 'to:', this.targetType);
     this.userTypeMsg = '';
-    if (!this.targetUserId) {
-      console.log('[AdminPageComponent] - submitChangeUserType: Validation failed - target user ID required');
-      this.userTypeMsg = 'ID do usuário alvo é obrigatório';
+    const phone = this.targetPhone.trim();
+    if (!phone) {
+      this.userTypeMsg = 'Telefone do usuário alvo é obrigatório';
       return;
     }
-    if (!this.requestingUserEmail || !this.requestingUserPassword) {
-      console.log('[AdminPageComponent] - submitChangeUserType: Validation failed - admin credentials required');
-      this.userTypeMsg = 'Credenciais de administrador são obrigatórias';
-      return;
-    }
-    const payload: ChangeUserTypeRequest = {
-      type: this.targetType,
-      requestingUserEmail: this.requestingUserEmail,
-      requestingUserPassword: this.requestingUserPassword
-    };
-    console.log('[AdminPageComponent] - submitChangeUserType: Payload prepared:', payload);
     this.userTypeLoading = true;
-    this.adminService.changeUserType(this.targetUserId, payload).subscribe({
-      next: (res) => {
-        console.log('[AdminPageComponent] - submitChangeUserType: User type changed successfully:', res);
-        this.userTypeMsg = res.message;
-        this.userTypeLoading = false;
-      },
-      error: (err) => {
-        console.error('[AdminPageComponent] - submitChangeUserType: Error changing user type:', err);
-        this.userTypeMsg = err?.error?.message || 'Erro na alteração';
-        this.userTypeLoading = false;
-      }
-    });
+    this.adminService
+      .lookupUserByPhone(phone)
+      .pipe(switchMap((u) => this.adminService.patchUserRole(String(u.id), { role: this.targetRole })))
+      .subscribe({
+        next: (res) => {
+          this.userTypeMsg = res.message;
+          this.userTypeLoading = false;
+        },
+        error: (err) => {
+          this.userTypeMsg = err?.error?.message || 'Erro na alteração';
+          this.userTypeLoading = false;
+        }
+      });
   }
 }

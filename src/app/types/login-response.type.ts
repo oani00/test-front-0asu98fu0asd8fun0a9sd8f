@@ -4,6 +4,8 @@ export type LoginResponse = {
   user: {
     id: string;
     name: string;
-    email: string;
+    phone?: string;
+    type?: string;
+    picture?: string | null;
   }
 };
