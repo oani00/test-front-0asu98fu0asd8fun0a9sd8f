@@ -1,0 +1,93 @@
+:host {
+	display: block;
+	padding: 1rem;
+}
+
+.support-container {
+	display: flex;
+	gap: 1.5rem;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+.support-hero {
+	flex: 0 0 320px;
+}
+
+.support-hero-img {
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 6px 18px rgba(20, 20, 30, 0.06);
+	display: block;
+}
+
+.support-body {
+	flex: 1 1 320px;
+	min-width: 280px;
+}
+
+.support-body h2 {
+	margin: 0 0 0.25rem 0;
+}
+
+form {
+	margin-top: 0.75rem;
+}
+
+label {
+	display: block;
+	margin-top: 0.75rem;
+	font-weight: 600;
+}
+
+input,
+textarea {
+	width: 100%;
+	padding: 0.5rem;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	margin-top: 0.25rem;
+	box-sizing: border-box;
+	font-family: inherit;
+}
+
+.form-actions {
+	margin-top: 1rem;
+}
+
+button {
+	padding: 0.6rem 1rem;
+	border: none;
+	border-radius: 6px;
+	background: #1976d2;
+	color: #fff;
+	cursor: pointer;
+}
+
+button[disabled] {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+.form-feedback {
+	margin-top: 0.75rem;
+}
+
+.form-feedback.success {
+	color: #15803d;
+}
+
+.form-feedback.error {
+	color: #b91c1c;
+}
+
+@media (max-width: 720px) {
+	.support-container {
+		flex-direction: column;
+	}
+
+	.support-hero {
+		flex: 0 0 auto;
+	}
+}

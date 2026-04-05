@@ -170,13 +170,17 @@
     box-shadow: 0 6px 10px -1px rgba(249, 115, 22, 0.5);
 }
 
-.action-button.subscribed {
-    background-color: #ef4444;
-    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
+/* Logged-in user already enrolled: informational, no action */
+.action-button.enrolled-state-btn {
+    background-color: #2563eb;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.35);
+    cursor: default;
 }
 
-.action-button.subscribed:hover:not([disabled]) {
-    background-color: #dc2626;
+.action-button.enrolled-state-btn:hover {
+    transform: none;
+    background-color: #2563eb;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.35);
 }
 
 .action-button[disabled] {

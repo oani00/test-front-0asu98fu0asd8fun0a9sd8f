@@ -83,6 +83,20 @@ export class AdminService {
     return this.http.delete<{ message: string }>(url);
   }
 
+  disenrollUserFromExcursion(excursionId: string, userId: string): Observable<{ message: string }> {
+    const url = `${this.base}/excursions/${excursionId}/users/${userId}`;
+    return this.http.delete<{ message: string }>(url);
+  }
+
+  setExcursionUserPaid(
+    excursionId: string,
+    userId: string,
+    paid: boolean
+  ): Observable<{ message: string; paid: boolean }> {
+    const url = `${this.base}/excursions/${excursionId}/users/${userId}`;
+    return this.http.patch<{ message: string; paid: boolean }>(url, { paid });
+  }
+
   lookupUserByPhone(phone: string): Observable<UserLookupByPhoneResponse> {
     const params = new HttpParams().set('phone', phone);
     return this.http.get<UserLookupByPhoneResponse>(`${this.base}/SignUp/GetUserByPhone`, {

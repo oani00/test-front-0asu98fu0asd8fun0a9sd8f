@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Excursion, PictureRef } from '../../models/excursion';
+import { Excursion, ExcursionUserRef, PictureRef } from '../../models/excursion';
 import { CommonModule } from '@angular/common';
 import { ExcursionService } from '../../services/excursion.service';
 import { Router } from '@angular/router';
@@ -57,10 +57,17 @@ export class ViagemDetailComponent implements OnInit {
     }
   }
 
+  private userEntryId(u: string | ExcursionUserRef): string {
+    return typeof u === 'string' ? u : u._id;
+  }
+
   checkSubscriptionStatus() {
     console.log('[ExcursionDetailComponent] - checkSubscriptionStatus: Checking subscription status');
-    if (this.viagem && this.currentUser && this.viagem.users) {
-      this.isSubscribed = this.viagem.users.includes(this.currentUser.id);
+    const uid = this.currentUser?.id;
+    if (this.viagem?.users?.length && uid) {
+      this.isSubscribed = this.viagem.users.some(
+        (u) => String(this.userEntryId(u)) === String(uid)
+      );
       console.log('[ExcursionDetailComponent] - checkSubscriptionStatus: User subscription status:', this.isSubscribed);
     } else {
       this.isSubscribed = false;
@@ -68,62 +75,36 @@ export class ViagemDetailComponent implements OnInit {
     }
   }
 
-  toggleSubscription() {
-    console.log('[ExcursionDetailComponent] - toggleSubscription: Toggling subscription, current status:', this.isSubscribed);
+  subscribeNow() {
+    console.log('[ExcursionDetailComponent] - subscribeNow: Subscribe clicked, isSubscribed:', this.isSubscribed);
     if (!this.currentUser) {
-      console.log('[ExcursionDetailComponent] - toggleSubscription: No current user, redirecting to login');
-      // Redirect to login if not authenticated
+      console.log('[ExcursionDetailComponent] - subscribeNow: No current user, redirecting to login');
       this.router.navigate(['/login']);
       return;
     }
 
-    if (!this.viagem || !this.viagem._id) {
-      console.error('[ExcursionDetailComponent] - toggleSubscription: Missing excursion data');
+    if (!this.viagem || !this.viagem._id || this.isSubscribed) {
       return;
     }
 
     const userId = this.currentUser.id;
     const excursionId = this.viagem._id;
-    console.log('[ExcursionDetailComponent] - toggleSubscription: User ID:', userId, 'Excursion ID:', excursionId);
+    console.log('[ExcursionDetailComponent] - subscribeNow: User ID:', userId, 'Excursion ID:', excursionId);
 
-    if (this.isSubscribed) {
-      console.log('[ExcursionDetailComponent] - toggleSubscription: Unsubscribing from excursion');
-      // Unsubscribe
-      this.excursionService.unsubscribeFromExcursion(userId, excursionId).subscribe({
-        next: (response) => {
-          console.log('[ExcursionDetailComponent] - toggleSubscription: Unsubscribed successfully:', response);
-          this.isSubscribed = false;
-          // Update local excursion data
-          if (this.viagem && this.viagem.users) {
-            this.viagem.users = this.viagem.users.filter(id => id !== userId);
-            console.log('[ExcursionDetailComponent] - toggleSubscription: Local excursion users updated');
-          }
-        },
-        error: (error) => {
-          console.error('[ExcursionDetailComponent] - toggleSubscription: Error unsubscribing:', error);
-          alert('Erro ao cancelar inscrição. Tente novamente.');
+    this.excursionService.subscribeToExcursion(userId, excursionId).subscribe({
+      next: (response) => {
+        console.log('[ExcursionDetailComponent] - subscribeNow: Subscribed successfully:', response);
+        this.isSubscribed = true;
+        if (this.viagem) {
+          this.viagem.users = this.viagem.users || [];
+          this.viagem.users.push(userId);
         }
-      });
-    } else {
-      console.log('[ExcursionDetailComponent] - toggleSubscription: Subscribing to excursion');
-      // Subscribe
-      this.excursionService.subscribeToExcursion(userId, excursionId).subscribe({
-        next: (response) => {
-          console.log('[ExcursionDetailComponent] - toggleSubscription: Subscribed successfully:', response);
-          this.isSubscribed = true;
-          // Update local excursion data
-          if (this.viagem) {
-            this.viagem.users = this.viagem.users || [];
-            this.viagem.users.push(userId);
-            console.log('[ExcursionDetailComponent] - toggleSubscription: Local excursion users updated');
-          }
-        },
-        error: (error) => {
-          console.error('[ExcursionDetailComponent] - toggleSubscription: Error subscribing:', error);
-          alert('Erro ao se inscrever. Tente novamente.');
-        }
-      });
-    }
+      },
+      error: (error) => {
+        console.error('[ExcursionDetailComponent] - subscribeNow: Error subscribing:', error);
+        alert('Erro ao se inscrever. Tente novamente.');
+      }
+    });
   }
 
   getPictureUrl(): string {

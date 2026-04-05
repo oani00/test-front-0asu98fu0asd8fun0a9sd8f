@@ -61,6 +61,31 @@
                 Excluir
               </button>
             </div>
+            <div *ngIf="enrolledUsers(ex).length" class="enrollees">
+              <h4 class="enrollees-title">Inscritos</h4>
+              <ul class="enrollees-list">
+                <li *ngFor="let u of enrolledUsers(ex)" class="enrollee-row">
+                  <span class="enrollee-name">{{ userLabel(u) }}</span>
+                  <label class="paid-toggle">
+                    <input
+                      type="checkbox"
+                      [checked]="isUserPaid(ex, u)"
+                      [disabled]="isEnrolleeBusy(ex, u)"
+                      (change)="onPaidCheckboxChange(ex, u, $event)"
+                    />
+                    Pago
+                  </label>
+                  <button
+                    type="button"
+                    class="btn-disenroll"
+                    [disabled]="isEnrolleeBusy(ex, u)"
+                    (click)="disenrollUser(ex, u)"
+                  >
+                    Desinscrever
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
           <div *ngIf="ex.editing" class="edit-mode">
             <input [(ngModel)]="ex.name" />

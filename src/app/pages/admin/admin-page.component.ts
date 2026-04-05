@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { ExcursionService } from '../../services/excursion.service';
 import { AdminService } from '../../services/admin.service';
-import { Excursion } from '../../models/excursion';
+import { Excursion, ExcursionUserRef } from '../../models/excursion';
 
 // Simple UI state types
 interface EditableExcursion extends Excursion { editing?: boolean; }
@@ -41,6 +41,9 @@ export class AdminPageComponent implements OnInit {
   // Admin check
   isAdmin = true; // default true until checked
   authMsg = '';
+
+  /** Keys `excursionId:userId` while disenroll/paid request in flight */
+  private enrolleeBusy = new Set<string>();
 
   constructor(
     private excursionService: ExcursionService,
@@ -204,6 +207,82 @@ export class AdminPageComponent implements OnInit {
         console.error('[AdminPageComponent] - createExcursion: Error creating excursion:', err);
         this.creating = false;
         this.createMsg = err?.error?.message || 'Erro ao criar';
+      }
+    });
+  }
+
+  enrolledUsers(ex: EditableExcursion): (string | ExcursionUserRef)[] {
+    return ex.users || [];
+  }
+
+  userId(u: string | ExcursionUserRef): string {
+    return typeof u === 'string' ? u : u._id;
+  }
+
+  userLabel(u: string | ExcursionUserRef): string {
+    if (typeof u === 'string') return u;
+    const name = u.name?.trim() || '—';
+    const phone = u.phone?.trim();
+    return phone ? `${name} (${phone})` : name;
+  }
+
+  isUserPaid(ex: EditableExcursion, u: string | ExcursionUserRef): boolean {
+    const id = this.userId(u);
+    return (ex.paidUsers || []).some((p) => String(p) === id);
+  }
+
+  isEnrolleeBusy(ex: EditableExcursion, u: string | ExcursionUserRef): boolean {
+    if (!ex._id) return false;
+    return this.enrolleeBusy.has(`${ex._id}:${this.userId(u)}`);
+  }
+
+  disenrollUser(ex: EditableExcursion, u: string | ExcursionUserRef) {
+    if (!ex._id) return;
+    const uid = this.userId(u);
+    const key = `${ex._id}:${uid}`;
+    if (this.enrolleeBusy.has(key)) return;
+    if (!confirm('Desinscrever este usuário desta excursão?')) return;
+    this.enrolleeBusy.add(key);
+    this.adminService.disenrollUserFromExcursion(ex._id, uid).subscribe({
+      next: () => {
+        ex.users = (ex.users || []).filter((x) => this.userId(x) !== uid);
+        ex.paidUsers = (ex.paidUsers || []).filter((p) => String(p) !== uid);
+        this.enrolleeBusy.delete(key);
+      },
+      error: (err) => {
+        alert(err?.error?.error || err?.error?.message || 'Erro ao desinscrever');
+        this.enrolleeBusy.delete(key);
+      }
+    });
+  }
+
+  onPaidCheckboxChange(ex: EditableExcursion, u: string | ExcursionUserRef, ev: Event) {
+    const paid = (ev.target as HTMLInputElement).checked;
+    this.onPaidToggle(ex, u, paid);
+  }
+
+  /** Optimistic paidUsers update; reverts on API error so checkbox stays consistent */
+  onPaidToggle(ex: EditableExcursion, u: string | ExcursionUserRef, paid: boolean) {
+    if (!ex._id) return;
+    const uid = this.userId(u);
+    const key = `${ex._id}:${uid}`;
+    if (this.enrolleeBusy.has(key)) return;
+
+    const prevPaid = [...(ex.paidUsers || []).map(String)];
+    const nextPaid = paid
+      ? prevPaid.includes(uid) ? prevPaid : [...prevPaid, uid]
+      : prevPaid.filter((p) => p !== uid);
+    ex.paidUsers = nextPaid;
+
+    this.enrolleeBusy.add(key);
+    this.adminService.setExcursionUserPaid(ex._id, uid, paid).subscribe({
+      next: () => {
+        this.enrolleeBusy.delete(key);
+      },
+      error: (err) => {
+        ex.paidUsers = prevPaid;
+        alert(err?.error?.error || err?.error?.message || 'Erro ao atualizar pagamento');
+        this.enrolleeBusy.delete(key);
       }
     });
   }

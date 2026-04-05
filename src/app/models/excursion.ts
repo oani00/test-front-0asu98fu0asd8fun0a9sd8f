@@ -4,8 +4,15 @@ export interface PictureRef {
   contentType: string;
 }
 
+/** Populated user on excursion (GET /excursions with populate users) */
+export interface ExcursionUserRef {
+  _id: string;
+  name?: string;
+  phone?: string;
+}
+
 export interface Excursion {
-  _id?: string; // MongoDB ObjectId as string
+  _id?: string; 
   name: string;
   description?: string;
   date?: Date;
@@ -13,7 +20,8 @@ export interface Excursion {
   location?: string;
   price?: number;
   type: 'passeio' | 'viagem';
-  pictures?: (string | PictureRef)[]; // Array of Picture ObjectId strings or populated Picture objects
-  users?: string[];    // Array of User ObjectId strings
+  pictures?: (string | PictureRef)[]; 
+  users?: (string | ExcursionUserRef)[];
+  paidUsers?: string[];
 }
 

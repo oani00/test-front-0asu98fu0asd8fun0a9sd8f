@@ -37,12 +37,22 @@
 
         <div class="subscription-section">
           <button
+            *ngIf="!isSubscribed"
+            type="button"
             class="action-button subscribe-btn"
-            [class.subscribed]="isSubscribed"
-            (click)="toggleSubscription()"
+            (click)="subscribeNow()"
             [disabled]="!currentUser"
           >
-            {{ isSubscribed ? "Cancelar Inscrição" : "Inscrever-se Agora" }}
+            Inscrever-se Agora
+          </button>
+          <button
+            *ngIf="isSubscribed"
+            type="button"
+            class="action-button enrolled-state-btn"
+            disabled
+            aria-label="Você já está inscrito nesta excursão"
+          >
+            Inscrito
           </button>
           <p *ngIf="!currentUser" class="login-required">
             <i class="icon-warning"></i> Faça login para se inscrever

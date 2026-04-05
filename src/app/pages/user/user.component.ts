@@ -186,6 +186,13 @@ export class UserComponent implements OnInit {
     });
   }
 
+  /** True when admin marked this user as paid for the excursion (paidUsers on excursion). */
+  hasUserPaid(excursion: Excursion): boolean {
+    const uid = this.currentUser?.id;
+    if (!uid || !excursion.paidUsers?.length) return false;
+    return excursion.paidUsers.some((p) => String(p) === String(uid));
+  }
+
   redirectToPayment(excursionId: string): void {
     console.log('[UserComponent] - redirectToPayment: Redirecting to payment for excursion:', excursionId);
     

@@ -92,3 +92,14 @@ h1 {
 .pay-btn:active {
   background-color: #5CCF5C;
 }
+
+.paid-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #1b5e20;
+  background-color: #c8e6c9;
+  border: 1px solid #81c784;
+}
