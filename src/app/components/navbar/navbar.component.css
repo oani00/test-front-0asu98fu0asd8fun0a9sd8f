@@ -17,6 +17,7 @@
   margin: 0 auto;
   padding: 16px 24px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
@@ -27,12 +28,15 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .brand {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
+  min-width: 0;
 }
 
 .brand__title {
@@ -52,6 +56,7 @@
   font-size: 0.875rem;
   color: rgba(242, 239, 233, 0.7);
   margin-top: 2px;
+  overflow-wrap: anywhere;
 }
 
 .navbar__right {
@@ -60,22 +65,29 @@
   gap: 20px;
   flex-wrap: wrap;
   justify-content: flex-end;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* Button row */
 .button-row {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
   flex: 1;
   gap: 12px;
+  min-width: 0;
 }
 
-/* Accessibility controls */
-.accessibility-controls {
+/* Top row */
+.top-row {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-row > * {
+  flex: 1;
 }
 
 .font-size-btn {
@@ -84,22 +96,24 @@
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border-radius: 6px;
-  padding: 6px 16px;
+  padding: 6px 12px;
   font-weight: 500;
   font-size: 0.75rem;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
-  height: 32px;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 1 1 auto;
+  white-space: nowrap;
 }
 
 .font-size-btn--small {
-  padding: 6px 16px;
+  padding: 6px 12px;
   font-size: 0.75rem;
   min-height: 32px;
-  width: 80px;
+  min-width: 56px;
 }
 
 .font-size-btn:hover {
@@ -116,7 +130,7 @@
 .btn {
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 6px 16px;
+  padding: 6px 14px;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
@@ -124,7 +138,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  min-height: 32px;
+  white-space: nowrap;
 }
 
 .btn--primary {
@@ -169,6 +184,9 @@
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .welcome-message {
@@ -176,6 +194,7 @@
   flex-direction: column;
   font-size: 0.8rem;
   line-height: 1.2;
+  min-width: 0;
 }
 
 .welcome-text {
@@ -240,8 +259,8 @@
 /* Home link */
 .home-link {
   box-sizing: border-box;
-  padding: 6px 16px;
-  height: 32px;
+  padding: 6px 12px;
+  min-height: 32px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
@@ -483,28 +502,45 @@
 
 @media (max-width: 768px) {
   .navbar__inner {
-    flex-direction: column;
-    align-items: stretch;
     gap: 16px;
     padding: 12px 16px;
   }
 
+  .navbar__left,
   .navbar__right {
+    flex-basis: 100%;
+  }
+
+  .navbar__left {
     justify-content: space-between;
+  }
+
+  .navbar__right {
+    justify-content: center;
     gap: 12px;
-    flex-wrap: wrap;
   }
 
   .button-row {
     order: 1;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .top-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .main-actions {
+    display: flex;
     justify-content: center;
     gap: 8px;
   }
 
   .user-section {
-    order: 2;
-    width: 100%;
-    flex-direction: column;
     align-items: center;
     gap: 8px;
     padding: 12px;
@@ -533,11 +569,74 @@
 }
 
 @media (max-width: 600px) {
+  .navbar__inner {
+    padding-inline: 12px;
+  }
+
+  .navbar__left {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brand__subtitle {
+    font-size: 0.78rem;
+  }
+
+  .button-row {
+    justify-content: stretch;
+  }
+
+  .top-row {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .top-row > button,
+  .home-link {
+    flex: 1 1 auto;
+  }
+
+  .main-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .main-actions > * {
+    flex: 1 1 120px;
+  }
+
+  .btn--login {
+    flex: 1 1 100%;
+  }
+
   .user-section {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
+  }
+
+  .welcome-message {
+    flex: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar__left {
+    flex-wrap: wrap;
+  }
+
+  .icon-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand__title {
+    font-size: 1rem;
+  }
+
+  .user-section {
+    justify-content: center;
   }
 }

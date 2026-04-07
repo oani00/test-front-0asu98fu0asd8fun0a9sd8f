@@ -11,11 +11,11 @@
         <h1 class="excursion-title">{{ viagem?.name }}</h1>
         <span class="excursion-date"
           ><i class="icon-calendar"></i> Ida:
-          {{ viagem?.date | date: "dd/MM/yyyy" }}</span
+          {{ viagem?.date | date: "dd/MM/yyyy" : "UTC" }}</span
         >
         <span *ngIf="viagem?.returnDate" class="excursion-date"
           ><i class="icon-calendar"></i> Volta:
-          {{ viagem?.returnDate | date: "dd/MM/yyyy" }}</span
+          {{ viagem?.returnDate | date: "dd/MM/yyyy" : "UTC" }}</span
         >
       </div>
     </div>

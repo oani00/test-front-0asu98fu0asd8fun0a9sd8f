@@ -2,14 +2,7 @@
   <div class="support-hero">
     <img
       class="support-hero-img"
-      src="https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg"
-      srcset="
-        https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg?w=360   360w,
-        https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg?w=740   740w,
-        https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg?w=1060 1060w,
-        https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg?w=1480 1480w,
-        https://img.freepik.com/vetores-premium/ilustracao-do-call-center_498740-8443.jpg?w=2000 2000w
-      "
+      src="assets/support.jpg"
       alt="Ilustração do call center"
       loading="lazy"
     />
@@ -18,9 +11,222 @@
   <div class="support-body">
     <h2>Suporte</h2>
     <p>
-      Para suporte, entre em contato conosco pelo telefone:
-      <strong>(15) 9 9653 2350</strong>.
+      Para suporte, entre em contato conosco.
+      <br />
     </p>
-    <p>Estamos disponíveis de segunda a sexta, das 9h às 18h.</p>
+
+    <p>
+      Nossa equipe de suporte está disponível de segunda a sexta-feira, das 9h
+      às 18h, pronta para atender suas dúvidas e solicitações.
+    </p>
+    <!-- TODO padronizar botão mudando apenas o body -->
+    <button type="button" (click)="redirectToPayment()" class="pay-btn">
+      <svg
+        width="30"
+        height="30"
+        viewBox="0 0 70 70"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="0"
+        style="margin-right: 6px; display: inline-block; vertical-align: middle"
+      >
+        <g>
+          <path
+            style="fill: #2cb742"
+            d="M0,58l4.988-14.963C2.457,38.78,1,33.812,1,28.5C1,12.76,13.76,0,29.5,0S58,12.76,58,28.5
+		S45.24,57,29.5,57c-4.789,0-9.299-1.187-13.26-3.273L0,58z"
+          />
+          <path
+            style="fill: #ffffff"
+            d="M47.683,37.985c-1.316-2.487-6.169-5.331-6.169-5.331c-1.098-0.626-2.423-0.696-3.049,0.42
+		c0,0-1.577,1.891-1.978,2.163c-1.832,1.241-3.529,1.193-5.242-0.52l-3.981-3.981l-3.981-3.981c-1.713-1.713-1.761-3.41-0.52-5.242
+		c0.272-0.401,2.163-1.978,2.163-1.978c1.116-0.627,1.046-1.951,0.42-3.049c0,0-2.844-4.853-5.331-6.169
+		c-1.058-0.56-2.357-0.364-3.203,0.482l-1.758,1.758c-5.577,5.577-2.831,11.873,2.746,17.45l5.097,5.097l5.097,5.097
+		c5.577,5.577,11.873,8.323,17.45,2.746l1.758-1.758C48.048,40.341,48.243,39.042,47.683,37.985z"
+          />
+        </g>
+      </svg>
+
+      Conversar no WhatsApp
+    </button>
+
+    <br />
+    <br />
+    <h1><strong>Perguntas Frequentes (FAQ)</strong></h1>
+    <p>
+      Encontre respostas para as duvidas mais comuns organizadas por perfil de
+      usuário.
+    </p>
+
+    <div class="faq-columns">
+      <div class="faq-column">
+        <h3>Para administradores (Organizadores de Eventos)</h3>
+        <div class="admin-faq-block">
+          <hr />
+          <details>
+            <summary><strong>Como posso criar um evento?</strong></summary>
+            <div>
+              Acesse sua conta, clique em
+              <strong>"Menu Administrador"</strong> e clique em
+              <strong>"Cadastro de Passeios / Viagens"</strong>. Preencha as
+              informações solicitadas, como nome, selecione se é um passeio ou
+              viagem, local, preço, data de idade, data de retorno (não
+              obrigatório em casos de passeio) descrição e escolher imagem.
+              Finalize no botão <strong>"criar"</strong>.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Posso editar um evento após criá-lo?</strong>
+            </summary>
+            <div>
+              Sim. Acesse sua conta, clique em
+              <strong>"Menu Administrador"</strong> e vá na seção
+              <strong>"Lista"</strong>, selecione o evento desejado e utilize a
+              opção de edição para atualizar as informações.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Como faço para acompanhar os participantes?</strong>
+            </summary>
+            <div>
+              Acesse sua conta, clique em
+              <strong>"Menu Administrador"</strong> e vá na seção
+              <strong>"Lista"</strong>, cada evento possui uma lista de
+              inscritos com as informações relacionadas.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>O que acontece quando um participante cancela?</strong>
+            </summary>
+            <div>
+              O sistema atualiza automaticamente tirando o usuário da lista.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong
+                >Onde registrar a confirmação de pagamento do viajante?</strong
+              >
+            </summary>
+            <div>
+              Acesse sua conta, clique em
+              <strong>"Menu Administrador"</strong> e vá na seção
+              <strong>"Lista"</strong>, nos inscritos, há um campo onde deverá
+              ticar como <strong>"Pago"</strong>, o sistema atualiza
+              automaticamente.
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="faq-column">
+        <h3>Para Usuários Viajantes</h3>
+        <div class="traveler-faq-block">
+          <hr />
+          <details>
+            <summary>
+              <strong>Como posso me inscrever em um evento?</strong>
+            </summary>
+            <div>
+              Faça o seu login, clicando no botão <strong>"Entrar"</strong>,
+              acesse a lista de eventos disponíveis, selecione o evento desejado
+              e clique em <strong>"Inscrever-se Agora"</strong>, automaticamente
+              o botão irá atualizar como <strong>"Inscrito"</strong>.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Preciso criar uma conta para me inscrever?</strong>
+            </summary>
+            <div>
+              Sim. É necessário possuir um cadastro para garantir o controle e a
+              organização das inscrições. Para isso clique no botão
+              <strong>"Entrar"</strong> e em seguida clique no botão
+              <strong>"Cadastrar"</strong>, precisará preencer os dados: Nome,
+              sobrenome, telefone, data de nascimento, cpf e senha. Clique no
+              botão <strong>"Criar conta"</strong>.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Como alterar minha foto de perfil?</strong>
+            </summary>
+            <div>
+              Entre no seu perfil, onde aparece seu nome, irá aparecer logo
+              abaixo de Foto de Perfil um botão
+              <strong>"Escolher Foto"</strong>, clique e escolha uma foto.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong
+                >Esqueci minha senha, consigo recuperar meu acesso?</strong
+              >
+            </summary>
+            <div>
+              Sim. Para isso clique no botão <strong>"Entrar"</strong> e em
+              seguida clique em <strong>"Esqueci minha senha"</strong>,
+              precisará preencher os dados solicitados, igualmente fez no seu
+              cadastro e criar uma nova senha. Clique no botão
+              <strong>"Trocar Senha"</strong>.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Posso cancelar minha inscrição no evento?</strong>
+            </summary>
+            <div>
+              Sim. Entre no seu perfil, onde aparece seu nome, irá aparece a
+              lista dos eventos em que se inscreveu, ao encontrar o que deseja
+              cancelar, basta clicar no botão
+              <strong>"Sair da Excursão"</strong> ou entre em contato com o
+              organizador.<br /><br />
+              <p style="color: red">
+                <strong>OBS.:</strong> Caso já tenha pago, precisa verificar com
+                o Organizador a possibilidade do cancelamento.
+              </p>
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary>
+              <strong>Como recebo as informações do evento?</strong>
+            </summary>
+            <div>
+              As informações ficam disponíveis na página do evento e podem ser
+              atualizadas pelo organizador sempre que necessário.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary><strong>Posso acessar pelo celular?</strong></summary>
+            <div>
+              Sim. O InTour é uma aplicação web responsiva, podendo ser acessada
+              por <strong>"celular"</strong>, <strong>"tablet"</strong> ou
+              <strong>"computador"</strong>.
+            </div>
+          </details>
+          <hr />
+          <details>
+            <summary><strong>Como falar com o suporte?</strong></summary>
+            <div>
+              Você pode entrar em contato com o suporte por meio do
+              <strong>"WhatsApp"</strong>
+              disponível na plataforma.
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
