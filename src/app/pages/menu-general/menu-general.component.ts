@@ -31,8 +31,7 @@ export class MenuGeneralComponent implements OnInit {
     console.log('[MenuGeneralComponent] - ngOnInit: Initializing menu options');
     this.menuOptions = [
       { name: 'Viagens', type: 'viagem' },
-      { name: 'Passeios', type: 'passeio' },
-      { name: 'Suporte', path: '/support' },
+      { name: 'Passeios', type: 'passeio' }
     ];
     console.log('[MenuGeneralComponent] - ngOnInit: Menu options initialized:', this.menuOptions);
   }
