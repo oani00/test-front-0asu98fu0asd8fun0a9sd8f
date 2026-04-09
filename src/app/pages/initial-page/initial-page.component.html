@@ -1,20 +1,22 @@
 <div class="center-container">
   <div *ngIf="loading">Carregando...</div>
   
-  <!-- Top Row: First 3 excursions -->
-  <div class="excursions-row" *ngIf="!loading && topExcursions.length > 0">
-    <div 
-      *ngFor="let excursion of topExcursions" 
-      class="excursion-card"
-      [routerLink]="['/excursion-detail', excursion._id]">
-      <img
-        [src]="getPictureUrl(excursion)"
-        [alt]="excursion.name"
-        class="excursion-image"
-      />
-      <div class="excursion-info">
-        <h3>{{ excursion.name }}</h3>
-        <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+  <!-- Top Carousel -->
+  <div class="carousel-container" *ngIf="!loading && topExcursions.length > 0">
+    <div class="carousel-track" [ngStyle]="{'transform': 'translateX(' + topTranslate + '%)'}">
+      <div 
+        *ngFor="let excursion of duplicatedTopExcursions" 
+        class="excursion-card"
+        [routerLink]="['/excursion-detail', excursion._id]">
+        <img
+          [src]="getPictureUrl(excursion)"
+          [alt]="excursion.name"
+          class="excursion-image"
+        />
+        <div class="excursion-info">
+          <h3>{{ excursion.name }}</h3>
+          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -28,20 +30,22 @@
   </div>
   <br />
 
-  <!-- Bottom Row: Next 3 excursions -->
-  <div class="excursions-row" *ngIf="!loading && bottomExcursions.length > 0">
-    <div 
-      *ngFor="let excursion of bottomExcursions" 
-      class="excursion-card"
-      [routerLink]="['/excursion-detail', excursion._id]">
-      <img
-        [src]="getPictureUrl(excursion)"
-        [alt]="excursion.name"
-        class="excursion-image"
-      />
-      <div class="excursion-info">
-        <h3>{{ excursion.name }}</h3>
-        <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+  <!-- Bottom Carousel -->
+  <div class="carousel-container" *ngIf="!loading && bottomExcursions.length > 0">
+    <div class="carousel-track reverse" [ngStyle]="{'transform': 'translateX(' + bottomTranslate + '%)'}">
+      <div 
+        *ngFor="let excursion of duplicatedBottomExcursions" 
+        class="excursion-card"
+        [routerLink]="['/excursion-detail', excursion._id]">
+        <img
+          [src]="getPictureUrl(excursion)"
+          [alt]="excursion.name"
+          class="excursion-image"
+        />
+        <div class="excursion-info">
+          <h3>{{ excursion.name }}</h3>
+          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+        </div>
       </div>
     </div>
   </div>

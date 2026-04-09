@@ -27,16 +27,22 @@ p {
   padding: 20px;
 }
 
-.excursions-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.carousel-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 20px 0;
+  overflow: hidden;
+  position: relative;
+  padding: 20px 0;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+  will-change: transform;
 }
 
 .excursion-card {
+  flex: 0 0 280px;
+  margin: 0 12px;
   cursor: pointer;
   background: white;
   border-radius: 10px;

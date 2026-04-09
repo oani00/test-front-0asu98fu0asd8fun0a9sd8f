@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ExcursionService } from '../../services/excursion.service';
@@ -12,16 +12,67 @@ import { environment } from '../../../environments/environment';
   templateUrl: './initial-page.component.html',
   styleUrl: './initial-page.component.css'
 })
-export class InitialPageComponent implements OnInit {
+export class InitialPageComponent implements OnInit, OnDestroy {
   topExcursions: Excursion[] = [];
   bottomExcursions: Excursion[] = [];
+  duplicatedTopExcursions: Excursion[] = [];
+  duplicatedBottomExcursions: Excursion[] = [];
   loading = false;
   apiUrl = environment.apiUrl;
+
+  topTranslate = 0; // percent
+  bottomTranslate = 0; // percent
+
+  private topInterval: any;
+  private bottomInterval: any;
 
   constructor(private excursionService: ExcursionService) {}
 
   ngOnInit(): void {
     this.loadExcursions();
+  }
+
+  startCarousels(): void {
+    this.stopCarousels();
+
+    // translateX percentages are relative to the element's own width.
+    // The track holds 3 copies, so one full original set = 100/3 ≈ 33.33% of the track.
+    const CYCLE = 100 / 3;
+    const STEP  = 0.04; // percent per tick (~50px/s at 330px-wide cards)
+    const TICK  = 30;   // ms
+
+    if (this.topExcursions.length > 0) {
+      this.topInterval = setInterval(() => {
+        this.topTranslate -= STEP;
+        if (this.topTranslate <= -CYCLE) {
+          this.topTranslate += CYCLE;
+        }
+      }, TICK);
+    }
+
+    if (this.bottomExcursions.length > 0) {
+      this.bottomInterval = setInterval(() => {
+        this.bottomTranslate -= STEP;
+        if (this.bottomTranslate <= -CYCLE) {
+          this.bottomTranslate += CYCLE;
+        }
+      }, TICK);
+    }
+  }
+
+  stopCarousels(): void {
+    if (this.topInterval) {
+      clearInterval(this.topInterval);
+      this.topInterval = null;
+    }
+    if (this.bottomInterval) {
+      clearInterval(this.bottomInterval);
+      this.bottomInterval = null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.stopCarousels();
   }
 
   loadExcursions(): void {
@@ -31,6 +82,10 @@ export class InitialPageComponent implements OnInit {
         // Split into top 3 and next 3
         this.topExcursions = excursions.slice(0, 3);
         this.bottomExcursions = excursions.slice(3, 6);
+        // duplicate for seamless scroll
+        this.duplicatedTopExcursions = [...this.topExcursions, ...this.topExcursions, ...this.topExcursions];
+        this.duplicatedBottomExcursions = [...this.bottomExcursions, ...this.bottomExcursions, ...this.bottomExcursions];
+        this.startCarousels();
         this.loading = false;
       },
       error: (err) => {
