@@ -36,8 +36,8 @@ export class InitialPageComponent implements OnInit, OnDestroy {
     this.stopCarousels();
 
     // translateX percentages are relative to the element's own width.
-    // The track holds 3 copies, so one full original set = 100/3 ≈ 33.33% of the track.
-    const CYCLE = 100 / 3;
+    // The track holds 5 copies, so one full original set = 100/5 = 20% of the track.
+    const CYCLE = 100 / 5;
     const STEP  = 0.04; // percent per tick (~50px/s at 330px-wide cards)
     const TICK  = 30;   // ms
 
@@ -79,12 +79,13 @@ export class InitialPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.excursionService.getExcursions().subscribe({
       next: (excursions) => {
-        // Split into top 3 and next 3
-        this.topExcursions = excursions.slice(0, 3);
-        this.bottomExcursions = excursions.slice(3, 6);
-        // duplicate for seamless scroll
-        this.duplicatedTopExcursions = [...this.topExcursions, ...this.topExcursions, ...this.topExcursions];
-        this.duplicatedBottomExcursions = [...this.bottomExcursions, ...this.bottomExcursions, ...this.bottomExcursions];
+        // Split dynamically at midpoint
+        const midpoint = Math.ceil(excursions.length / 2);
+        this.topExcursions = excursions.slice(0, midpoint);
+        this.bottomExcursions = excursions.slice(midpoint);
+        // duplicate for seamless scroll (5 copies)
+        this.duplicatedTopExcursions = [...this.topExcursions, ...this.topExcursions, ...this.topExcursions, ...this.topExcursions, ...this.topExcursions];
+        this.duplicatedBottomExcursions = [...this.bottomExcursions, ...this.bottomExcursions, ...this.bottomExcursions, ...this.bottomExcursions, ...this.bottomExcursions];
         this.startCarousels();
         this.loading = false;
       },
