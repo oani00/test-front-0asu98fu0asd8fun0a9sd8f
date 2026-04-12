@@ -15,7 +15,7 @@
         />
         <div class="excursion-info">
           <h3>{{ excursion.name }}</h3>
-          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2':'pt-BR' }}</p>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
         />
         <div class="excursion-info">
           <h3>{{ excursion.name }}</h3>
-          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2' }}</p>
+          <p *ngIf="excursion.price">R$ {{ excursion.price | number:'1.2-2':'pt-BR' }}</p>
         </div>
       </div>
     </div>

@@ -38,7 +38,7 @@ export class InitialPageComponent implements OnInit, OnDestroy {
     // translateX percentages are relative to the element's own width.
     // The track holds 5 copies, so one full original set = 100/5 = 20% of the track.
     const CYCLE = 100 / 5;
-    const STEP  = 0.04; // percent per tick (~50px/s at 330px-wide cards)
+    const STEP  = 0.015; // percent per tick (~50px/s at 330px-wide cards)
     const TICK  = 30;   // ms
 
     if (this.topExcursions.length > 0) {

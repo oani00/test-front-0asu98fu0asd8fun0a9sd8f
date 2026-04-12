@@ -45,6 +45,7 @@
               placeholder="(00) 00000-0000"
               [(ngModel)]="phone"
               required
+              maxlength="11"
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -68,6 +69,7 @@
             name="cpf"
             class="form-control custom-input"
             placeholder="000.000.000-00"
+            maxlength="11"
             [(ngModel)]="cpf"
             required
           />
